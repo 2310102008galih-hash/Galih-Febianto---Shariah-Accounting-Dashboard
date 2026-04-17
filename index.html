@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Tamasya - Login</title>
+    <title>Gravel Tamasya - Management System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -29,19 +29,35 @@
     </script>
     
     <style>
-        .login-screen { background-color: #1A4D2E; }
-        .dashboard-screen { display: none; background-color: #F3F4F6; }
+        body { background-color: #F3F4F6; margin: 0; padding: 0; overflow: hidden; }
+        /* Auth Screen Styling */
+        #loginPage {
+            background-color: #1A4D2E;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Dashboard Styling */
+        #mainDashboard {
+            display: none; /* Tersembunyi sampai login berhasil */
+            height: 100vh;
+            width: 100vw;
+        }
         .data-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; }
+        .sidebar-item { transition: all 0.2s ease; color: #E5E7EB; }
         .sidebar-item.active { background-color: rgba(255, 255, 255, 0.1); color: #FBBF24; font-weight: 600; }
         .page-content { display: none; }
-        .page-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="font-sans antialiased text-gravel-dark">
 
-    <div id="loginPage" class="login-screen min-h-screen flex items-center justify-center p-6">
-        <div class="max-w-md w-full">
+    <div id="loginPage">
+        <div class="max-w-md w-full px-6">
             <div class="text-center mb-10">
                 <div class="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-white/20">
                     <i class="fas fa-bicycle text-gravel-gold text-3xl"></i>
@@ -50,29 +66,29 @@
                 <p class="text-white/60 text-sm italic">Sparepart & Service Syariah</p>
             </div>
 
-            <div class="bg-white rounded-3xl p-8 shadow-2xl overflow-hidden relative">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gravel-amber"></div>
+            <div class="bg-white rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gravel-amber"></div>
                 
                 <div class="mb-8">
-                    <h2 class="text-xl font-extrabold text-gravel-dark">Selamat Datang</h2>
+                    <h2 class="text-xl font-extrabold text-gravel-dark tracking-tight">Selamat Datang</h2>
                     <p class="text-sm text-gray-500 font-medium">Memperlancar proses penjualan</p>
                 </div>
 
-                <form id="authForm" class="space-y-5" onsubmit="handleLogin(event)">
+                <form onsubmit="handleLogin(event)" class="space-y-5">
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">ID / Email</label>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">ID / Email</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                                 <i class="far fa-envelope"></i>
                             </span>
                             <input type="text" id="userID" required 
                                 class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:border-gravel-green focus:ring-1 focus:ring-gravel-green outline-none transition-all text-sm font-semibold"
-                                placeholder="Masukkan ID atau Email">
+                                placeholder="Masukkan ID">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
+                        <label class="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">Password</label>
                         <div class="relative">
                             <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
                                 <i class="far fa-lock"></i>
@@ -90,112 +106,249 @@
                 </form>
 
                 <div class="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-                    <span class="text-[10px] text-gray-400 font-bold uppercase">Sistem Keamanan Terpadu</span>
-                    <i class="fas fa-shield-halved text-gravel-amber"></i>
+                    <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Sistem Keamanan Terpadu</span>
+                    <i class="fas fa-shield-halved text-gravel-amber text-sm"></i>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="mainDashboard" class="dashboard-screen h-screen flex overflow-hidden">
-        <aside class="w-20 md:w-64 bg-gravel-green flex flex-col items-center py-8 border-r border-black/10">
+    <div id="mainDashboard" class="flex">
+        <aside class="w-20 md:w-64 bg-gravel-green flex flex-col items-center py-8 border-r border-black/10 flex-shrink-0">
             <div class="mb-12 text-center">
-                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto">
+                <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto shadow-inner">
                     <i class="fas fa-dot-circle text-gravel-gold text-xl"></i>
                 </div>
                 <p class="hidden md:block mt-4 text-[10px] font-black tracking-widest text-white uppercase px-2">Gravel Tamasya</p>
             </div>
+            
             <nav class="flex-1 w-full px-4 space-y-2">
                 <button onclick="showPage('overview', this)" class="sidebar-item active w-full py-3.5 px-5 flex items-center gap-4 rounded-xl text-sm">
-                    <i class="fas fa-tachometer-alt w-5 text-center"></i>
+                    <i class="far fa-chart-bar w-5 text-center"></i>
                     <span class="hidden md:block">Monitor</span>
                 </button>
                 <button onclick="showPage('pos', this)" class="sidebar-item w-full py-3.5 px-5 flex items-center gap-4 rounded-xl text-sm">
-                    <i class="fas fa-cash-register w-5 text-center"></i>
+                    <i class="far fa-credit-card w-5 text-center"></i>
                     <span class="hidden md:block">Kasir Part</span>
                 </button>
-                <button onclick="logout()" class="w-full py-3.5 px-5 flex items-center gap-4 rounded-xl text-sm text-red-300 hover:bg-red-900/20 mt-10">
-                    <i class="fas fa-power-off w-5 text-center"></i>
-                    <span class="hidden md:block">Keluar</span>
+                <button onclick="showPage('stok', this)" class="sidebar-item w-full py-3.5 px-5 flex items-center gap-4 rounded-xl text-sm">
+                    <i class="far fa-folder-open w-5 text-center"></i>
+                    <span class="hidden md:block">Gudang</span>
                 </button>
+                
+                <div class="pt-10">
+                    <button onclick="logout()" class="w-full py-3.5 px-5 flex items-center gap-4 rounded-xl text-sm text-red-300 hover:bg-red-900/20 transition-all">
+                        <i class="fas fa-power-off w-5 text-center"></i>
+                        <span class="hidden md:block">Logout</span>
+                    </button>
+                </div>
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-y-auto">
-            <header class="bg-white border-b border-gray-200 py-6 px-12 flex justify-between items-center sticky top-0 z-10">
+        <main class="flex-1 overflow-y-auto bg-[#F3F4F6]">
+            <header class="bg-white border-b border-gray-200 py-6 px-10 flex justify-between items-center sticky top-0 z-10">
                 <div>
-                    <h1 class="text-2xl font-extrabold text-gravel-dark tracking-tighter" id="pageTitle">Overview Bisnis</h1>
-                    <p id="tanggal" class="text-xs text-gray-400 font-medium"></p>
+                    <h1 class="text-2xl font-black text-gravel-dark tracking-tighter" id="pageTitle">Monitor Bisnis</h1>
+                    <p id="tanggal" class="text-xs text-gray-400 font-medium mt-1"></p>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right hidden md:block">
                         <p class="text-sm font-bold text-gravel-dark" id="displayUser">Admin</p>
-                        <p class="text-[10px] text-gravel-green font-bold uppercase tracking-widest">Active Session</p>
+                        <p class="text-[10px] text-gravel-green font-bold uppercase tracking-widest">Workshop Active</p>
                     </div>
-                    <img src="https://ui-avatars.com/api/?name=GT&background=1A4D2E&color=FBBF24" class="w-10 h-10 rounded-full border border-gray-200">
+                    <div class="w-10 h-10 rounded-full bg-gravel-green flex items-center justify-center text-gravel-gold font-bold border-2 border-gravel-gold/20">GT</div>
                 </div>
             </header>
 
-            <div class="p-12">
+            <div class="p-10">
                 <div id="overview" class="page-content active">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="data-card p-8 border-l-4 border-gravel-green">
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Penjualan Hari Ini</p>
-                            <h2 class="text-3xl font-black text-gravel-dark tracking-tight" id="kpiJual">Rp 0</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+                        <div class="data-card p-8 border-l-4 border-gravel-green shadow-sm">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Omzet Penjualan</p>
+                            <h2 class="text-3xl font-black text-gravel-dark" id="kpiJual">Rp 0</h2>
                         </div>
-                        <div class="data-card p-8 border-l-4 border-gravel-amber">
+                        <div class="data-card p-8 border-l-4 border-gravel-amber shadow-sm">
                             <p class="text-[10px] font-bold text-gravel-amber uppercase tracking-widest mb-2">Estimasi Zakat Mal</p>
-                            <h2 class="text-3xl font-black text-gravel-dark tracking-tight" id="kpiZakat">Rp 0</h2>
+                            <h2 class="text-3xl font-black text-gravel-dark" id="kpiZakat">Rp 0</h2>
                         </div>
-                        <div class="data-card p-8 bg-gravel-green text-white">
-                            <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-2">Status Syariah</p>
+                        <div class="data-card p-8 bg-gravel-green text-white shadow-lg">
+                            <p class="text-[10px] font-bold text-white/60 uppercase tracking-widest mb-2">Kepatuhan Syariah</p>
                             <div class="flex items-center gap-2">
                                 <i class="fas fa-check-circle text-gravel-gold"></i>
-                                <span class="font-bold">AKAD TERVERIFIKASI</span>
+                                <span class="font-bold text-sm tracking-tight uppercase">Akad Terverifikasi</span>
                             </div>
+                        </div>
+                    </div>
+                    <div class="data-card p-8">
+                        <h3 class="text-sm font-bold mb-6 text-gray-400 uppercase tracking-widest">Statistik Mingguan</h3>
+                        <div class="h-64">
+                            <canvas id="salesChart"></canvas>
                         </div>
                     </div>
                 </div>
 
                 <div id="pos" class="page-content">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="menuGrid"></div>
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <div class="flex-1 grid grid-cols-2 gap-4" id="menuGrid"></div>
+                        <div class="w-full lg:w-96">
+                            <div class="data-card p-6 border-2 border-gravel-terracotta/20">
+                                <h3 class="text-center font-black text-sm uppercase mb-6 tracking-widest text-gravel-terracotta">Struk Jual Beli</h3>
+                                <div id="cartItems" class="space-y-3 mb-6 min-h-[150px] border-y border-gray-50 py-4 text-xs font-mono">
+                                    <p class="text-center text-gray-300 italic">Keranjang kosong</p>
+                                </div>
+                                <div class="flex justify-between items-center mb-6 bg-gray-50 p-3 rounded-lg">
+                                    <span class="text-[10px] font-bold text-gray-400">TOTAL AKAD</span>
+                                    <span class="text-xl font-black text-gravel-dark" id="cartTotal">Rp 0</span>
+                                </div>
+                                <button onclick="processTransaction()" class="w-full bg-gravel-terracotta hover:bg-gravel-green text-white font-bold py-4 rounded-xl transition-all uppercase text-xs tracking-widest">
+                                    Selesaikan Transaksi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stok" class="page-content">
+                    <div id="inventoryDisplay" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
                 </div>
             </div>
         </main>
     </div>
 
-    <div id="notif" class="fixed top-10 right-10 translate-x-[150%] transition-all duration-500 bg-white shadow-2xl rounded-2xl p-6 border-l-4 border-gravel-amber z-[100] flex items-center gap-4">
-        <div id="notifMsg" class="text-sm font-bold text-gravel-dark"></div>
+    <div id="notif" class="fixed top-10 right-10 translate-x-[150%] transition-all duration-500 bg-white shadow-2xl rounded-2xl p-6 border-l-4 border-gravel-gold z-[10000] flex items-center gap-4">
+        <i class="fas fa-bell text-gravel-amber"></i>
+        <div id="notifMsg" class="text-sm font-bold text-gravel-dark tracking-tight"></div>
     </div>
 
     <script>
-        // AUTH LOGIC
+        // --- DATABASE STATE ---
+        let state = {
+            omzet: 0,
+            cart: [],
+            inventory: [
+                { id: 'ban', nama: "Ban Luar Gravel 700c", stok: 15, unit: "pcs", icon: "fa-circle-notch" },
+                { id: 'rantai', nama: "Rantai Shimano 11sp", stok: 8, unit: "pcs", icon: "fa-link" },
+                { id: 'sprocket', nama: "Sprocket 11-42T", stok: 5, unit: "pcs", icon: "fa-cog" }
+            ],
+            parts: [
+                { id: 1, inventoryId: 'ban', nama: "Maxxis Rambler", harga: 750000, icon: "fa-circle-notch" },
+                { id: 2, inventoryId: 'rantai', nama: "Shimano HG-601", harga: 450000, icon: "fa-link" },
+                { id: 3, inventoryId: 'sprocket', nama: "Deore M5100", harga: 850000, icon: "fa-cog" }
+            ]
+        };
+
+        // --- AUTH ENGINE ---
         function handleLogin(e) {
             e.preventDefault();
             const id = document.getElementById('userID').value;
             const pass = document.getElementById('userPass').value;
 
-            // Simple validation (bisa diganti sesuai kebutuhan)
+            // Simple check (admin / admin)
             if(id && pass) {
                 document.getElementById('displayUser').innerText = id;
                 document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('mainDashboard').style.display = 'flex';
+                
+                // Initialize Dashboard Data
                 initDashboard();
-                notify("Login Berhasil. Selamat bekerja!");
+                notify("Sesi Dimulai: Selamat Bekerja!");
             }
         }
 
         function logout() {
-            location.reload(); // Reset state
+            if(confirm("Keluar dari sistem?")) location.reload();
         }
 
-        // UI LOGIC
+        // --- CORE UI ENGINE ---
+        function initDashboard() {
+            document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            renderMenu();
+            renderInventory();
+            updateKPIs();
+            initChart();
+        }
+
         function showPage(pageId, btn) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.getElementById('pageTitle').innerText = pageId === 'overview' ? 'Overview Bisnis' : 'Kasir Part';
+            
+            const titles = {'overview': 'Monitor Bisnis', 'pos': 'Kasir Part', 'stok': 'Manajemen Gudang'};
+            document.getElementById('pageTitle').innerText = titles[pageId];
+            
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
             if(btn) btn.classList.add('active');
+        }
+
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = state.parts.map(p => `
+                <button onclick="addToCart(${p.id})" class="data-card p-6 text-left hover:border-gravel-green transition-all group">
+                    <i class="far ${p.icon} text-2xl text-gravel-green mb-4 block"></i>
+                    <h4 class="font-bold text-xs uppercase text-gray-400 mb-1">${p.nama}</h4>
+                    <p class="font-black text-gravel-dark">Rp ${p.harga.toLocaleString()}</p>
+                </button>
+            `).join('');
+        }
+
+        function renderInventory() {
+            const grid = document.getElementById('inventoryDisplay');
+            grid.innerHTML = state.inventory.map(item => `
+                <div class="data-card p-6 flex justify-between items-center">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-gravel-green">
+                            <i class="fas ${item.icon}"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase">${item.nama}</p>
+                            <p class="text-xl font-black">${item.stok} <span class="text-xs font-normal opacity-50">${item.unit}</span></p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(id) {
+            const item = state.parts.find(p => p.id === id);
+            state.cart.push(item);
+            renderCart();
+        }
+
+        function renderCart() {
+            const box = document.getElementById('cartItems');
+            let total = 0;
+            if(state.cart.length === 0) {
+                box.innerHTML = `<p class="text-center text-gray-300 italic">Keranjang kosong</p>`;
+            } else {
+                box.innerHTML = state.cart.map(item => {
+                    total += item.harga;
+                    return `<div class="flex justify-between"><span>${item.nama}</span><b>${item.harga.toLocaleString()}</b></div>`;
+                }).join('');
+            }
+            document.getElementById('cartTotal').innerText = "Rp " + total.toLocaleString();
+        }
+
+        function processTransaction() {
+            if(state.cart.length === 0) return;
+            const total = state.cart.reduce((a, b) => a + b.harga, 0);
+            state.omzet += total;
+            
+            // Kurangi stok (simulasi sederhana)
+            state.cart.forEach(c => {
+                const inv = state.inventory.find(i => i.id === c.inventoryId);
+                if(inv) inv.stok--;
+            });
+
+            state.cart = [];
+            renderCart();
+            renderInventory();
+            updateKPIs();
+            notify("Transaksi Berhasil Disimpan!");
+            showPage('overview');
+        }
+
+        function updateKPIs() {
+            document.getElementById('kpiJual').innerText = "Rp " + state.omzet.toLocaleString();
+            document.getElementById('kpiZakat').innerText = "Rp " + (state.omzet * 0.025).toLocaleString();
         }
 
         function notify(msg) {
@@ -205,9 +358,26 @@
             setTimeout(() => n.style.transform = "translateX(150%)", 3000);
         }
 
-        function initDashboard() {
-            document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            // Render menu dan data lainnya di sini...
+        function initChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['S', 'S', 'R', 'K', 'J', 'S', 'M'],
+                    datasets: [{
+                        data: [12, 19, 3, 5, 2, 3, 10],
+                        borderColor: '#1A4D2E',
+                        backgroundColor: 'rgba(26, 77, 46, 0.1)',
+                        fill: true, tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { display: false }, x: { grid: { display: false } } }
+                }
+            });
         }
     </script>
 </body>
