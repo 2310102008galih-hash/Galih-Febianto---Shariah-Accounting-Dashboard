@@ -3,352 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Tamasya ERP - Jurnal & Master Data</title>
+    <title>Gravel Tamasya - Sparepart & Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        'gravel-green': '#1A4D2E',
-                        'gravel-terracotta': '#C66F4B',
-                        'gravel-amber': '#DAA520',
-                        'gravel-gold': '#FBBF24',
-                        'gravel-dark': '#111827',
-                    }
-                }
-            }
-        }
-    </script>
-    
     <style>
-        body { background-color: #F3F4F6; margin: 0; padding: 0; }
-        #loginPage { background-color: #1A4D2E; position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        #mainDashboard { display: none; height: 100vh; width: 100vw; }
-        .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); }
-        .submenu.open { max-height: 500px; }
-        .rotate-icon { transition: transform 0.3s; }
-        .rotate-icon.active { transform: rotate(180deg); }
-        .page-content { display: none; }
-        .page-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        :root {
+            --primary: #10B981; /* Hijau Emerald */
+            --secondary: #3B82F6; /* Biru Royal */
+            --accent: #64748B; /* Abu-abu Slate */
+            --dark-bg: #0F172A; /* Abu Tua Gelap */
+            --card-bg: #1E293B;
+        }
+        body { background-color: var(--dark-bg); color: #F1F5F9; }
+        .glass-card { 
+            background: var(--card-bg); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+        }
+        .sidebar-item { transition: all 0.3s ease; color: #94A3B8; }
+        .sidebar-item.active { 
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 100%);
+            border-left: 4px solid var(--primary);
+            color: var(--primary);
+        }
+        .page-content { display: none; animation: fadeIn 0.4s ease-out; }
+        .page-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="font-sans antialiased text-gravel-dark">
+<body class="font-sans antialiased">
 
-    <div id="loginPage">
-        <div class="max-w-md w-full px-6 text-center">
-            <div class="bg-white rounded-3xl p-8 shadow-2xl relative">
-                <div class="absolute top-0 left-0 w-full h-1.5 bg-gravel-gold"></div>
-                <h2 class="text-xl font-black text-gravel-dark uppercase mb-1">Gravel Tamasya</h2>
-                <p class="text-[10px] text-gray-400 mb-8 font-bold uppercase tracking-widest">Sistem Akuntansi Syariah</p>
-                <form onsubmit="handleLogin(event)" class="space-y-4">
-                    <input type="text" placeholder="ID Admin" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green font-semibold">
-                    <input type="password" placeholder="Password" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green">
-                    <button type="submit" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-gravel-dark transition-all uppercase tracking-widest text-xs">Masuk Sistem</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="mainDashboard" class="flex">
-        <aside class="w-64 bg-gravel-green flex flex-col border-r border-black/10 flex-shrink-0 h-full overflow-y-auto">
-            <div class="p-6 text-center border-b border-white/5">
-                <div class="w-10 h-10 bg-gravel-gold rounded-xl flex items-center justify-center mx-auto mb-2"><i class="fas fa-bicycle text-gravel-green"></i></div>
-                <p class="text-[10px] font-black tracking-widest text-white uppercase">Gravel Tamasya</p>
+    <div class="flex h-screen overflow-hidden">
+        <aside class="w-20 md:w-64 bg-[#020617] flex flex-col items-center py-10 border-r border-white/5">
+            <div class="mb-12">
+                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <i class="fas fa-bicycle text-white text-xl"></i>
+                </div>
+                <p class="hidden md:block mt-4 text-xs font-black tracking-widest text-emerald-500 text-center">GRAVEL TAMASYA</p>
             </div>
             
-            <nav class="px-3 py-4 space-y-1">
-                <button onclick="showPage('overview', this)" class="w-full p-3 flex items-center gap-3 text-white hover:bg-white/10 rounded-lg text-sm transition-all"><i class="fas fa-th-large w-5"></i> Dashboard</button>
-
-                <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
-                        <div class="flex items-center gap-3"><i class="fas fa-shopping-cart w-5"></i> Penjualan</div>
-                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
-                    </button>
-                    <div class="submenu ml-4 border-l border-white/10">
-                        <a href="#" onclick="showPage('faktur_jual')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Faktur Penjualan</a>
-                        <a href="#" onclick="showPage('add_pelanggan')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold font-bold">+ Tambah Pelanggan</a>
-                    </div>
-                </div>
-
-                <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
-                        <div class="flex items-center gap-3"><i class="fas fa-boxes w-5"></i> Persediaan</div>
-                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
-                    </button>
-                    <div class="submenu ml-4 border-l border-white/10">
-                        <a href="#" onclick="showPage('add_barang')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold font-bold">+ Tambah Barang</a>
-                        <a href="#" onclick="showPage('stok_list')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Daftar Stok</a>
-                    </div>
-                </div>
-
-                <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
-                        <div class="flex items-center gap-3"><i class="fas fa-book w-5"></i> Buku Besar</div>
-                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
-                    </button>
-                    <div class="submenu ml-4 border-l border-white/10">
-                        <a href="#" onclick="showPage('jurnal')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Jurnal Umum</a>
-                    </div>
-                </div>
+            <nav class="flex-1 w-full px-4 space-y-2">
+                <button onclick="showPage('overview', this)" class="sidebar-item active w-full py-4 px-6 flex items-center gap-4 rounded-xl">
+                    <i class="fas fa-chart-pie"></i>
+                    <span class="hidden md:block font-bold">Monitor</span>
+                </button>
+                <button onclick="showPage('pos', this)" class="sidebar-item w-full py-4 px-6 flex items-center gap-4 rounded-xl">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="hidden md:block font-bold">Kasir Part</span>
+                </button>
+                <button onclick="showPage('stok', this)" class="sidebar-item w-full py-4 px-6 flex items-center gap-4 rounded-xl">
+                    <i class="fas fa-warehouse"></i>
+                    <span class="hidden md:block font-bold">Gudang</span>
+                </button>
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-y-auto">
-            <header class="bg-white border-b py-5 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-                <h1 id="pageTitle" class="text-lg font-black text-gravel-dark uppercase">Dashboard</h1>
-                <p id="tanggal" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"></p>
+        <main class="flex-1 overflow-y-auto p-6 md:p-10">
+            <header class="flex justify-between items-center mb-10">
+                <div>
+                    <h1 class="text-3xl font-black text-white uppercase tracking-tight" id="pageTitle">Dashboard</h1>
+                    <p id="tanggal" class="text-xs text-slate-400 font-medium mt-1"></p>
+                </div>
+                <div class="flex items-center gap-4 bg-slate-800/50 p-2 pr-6 rounded-full border border-white/5">
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">GT</div>
+                    <div class="hidden md:block">
+                        <p class="text-xs font-bold text-white">Admin Gravel</p>
+                        <p class="text-[10px] text-emerald-400">Workshop Active</p>
+                    </div>
+                </div>
             </header>
 
-            <div class="p-8 space-y-8">
-                <div id="overview" class="page-content active space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-3xl border-l-4 border-gravel-green shadow-sm">
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Laba/Rugi Tahun Ini</p>
-                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiLaba">Rp 0</h3>
-                        </div>
-                        <div class="bg-white p-6 rounded-3xl border-l-4 border-gravel-amber shadow-sm">
-                            <p class="text-[10px] font-bold text-gravel-amber uppercase tracking-widest mb-1">Estimasi Zakat Mal</p>
-                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiZakat">Rp 0</h3>
-                        </div>
-                        <div class="bg-gravel-green p-6 rounded-3xl text-white shadow-lg">
-                            <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Total Omzet</p>
-                            <h3 class="text-3xl font-black" id="kpiOmzet">Rp 0</h3>
-                        </div>
+            <div id="overview" class="page-content active">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                    <div class="glass-card p-6 border-b-4 border-emerald-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Penjualan Hari Ini</p>
+                        <h2 class="text-2xl font-black text-white" id="kpiJual">Rp 0</h2>
+                        <p class="text-[10px] text-emerald-400 mt-2"><i class="fas fa-caret-up"></i> 15% dari target harian</p>
                     </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2 bg-white p-6 rounded-3xl border shadow-sm">
-                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4">Tren Penjualan Mingguan</h4>
-                            <div class="h-64"><canvas id="salesChart"></canvas></div>
+                    <div class="glass-card p-6 border-b-4 border-blue-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Estimasi Zakat Mal</p>
+                        <h2 class="text-2xl font-black text-white" id="kpiZakat">Rp 0</h2>
+                        <p class="text-[10px] text-slate-500 mt-2 italic">Dihitung harian (2.5% Profit)</p>
+                    </div>
+                    <div class="glass-card p-6 border-b-4 border-slate-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Status Syariah</p>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check-circle text-emerald-500"></i>
+                            <span class="text-sm font-bold text-white">AKAD MURABAHAH</span>
                         </div>
-                        <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4">Aktivitas Terakhir</h4>
-                            <div id="activityLog" class="space-y-3 text-[11px]">
-                                <p class="text-gray-300 italic">Memulai sesi baru...</p>
-                            </div>
-                        </div>
+                        <p class="text-[10px] text-slate-500 mt-2 italic">Margin Transparan & Halal</p>
                     </div>
                 </div>
 
-                <div id="add_pelanggan" class="page-content">
-                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-lg">
-                        <h2 class="font-black mb-6 uppercase text-sm tracking-widest">Registrasi Pelanggan</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Statistik Sparepart</h3>
+                        <canvas id="salesChart" height="150"></canvas>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Log Audit Syariah</h3>
+                        <div id="syariahLog" class="space-y-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pos" class="page-content">
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4" id="menuGrid"></div>
+                    <div class="w-full lg:w-80">
+                        <div class="glass-card p-6 border-blue-500/20 border-2">
+                            <h3 class="text-center font-black text-sm uppercase mb-6 tracking-widest text-blue-400">Nota Pesanan</h3>
+                            <div id="cartItems" class="space-y-3 mb-6 min-h-[200px] border-y border-white/5 py-4 text-[11px] font-mono">
+                                <p class="text-center text-slate-600 italic">Belum ada part dipilih</p>
+                            </div>
+                            <div class="flex justify-between items-center mb-6">
+                                <span class="text-slate-400 text-[10px] font-bold">TOTAL</span>
+                                <span class="text-xl font-black text-white" id="cartTotal">Rp 0</span>
+                            </div>
+                            <button onclick="processTransaction()" class="w-full bg-blue-600 hover:bg-emerald-600 text-white font-black py-4 rounded-xl transition-all uppercase text-xs tracking-tighter">
+                                Selesaikan Akad Jual Beli
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="stok" class="page-content">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Input Barang</h3>
                         <div class="space-y-4">
-                            <input type="text" id="custName" placeholder="Nama Pelanggan" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
-                            <select id="custCat" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none font-bold text-sm">
-                                <option value="Member">Kategori: Member</option>
-                                <option value="Umum">Kategori: Umum (Walk-in)</option>
+                            <select id="inputNama" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs font-bold outline-none focus:border-emerald-500">
+                                <option>Ban Luar Gravel</option>
+                                <option>Rantai 11 Speed</option>
+                                <option>Kampas Rem</option>
+                                <option>Bar Tape</option>
                             </select>
-                            <button onclick="saveCustomer()" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl uppercase text-[10px]">Simpan Pelanggan</button>
+                            <input id="inputQty" type="number" placeholder="Jumlah" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs outline-none focus:border-emerald-500">
+                            <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Update Stok</button>
                         </div>
                     </div>
-                </div>
-
-                <div id="add_barang" class="page-content">
-                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-lg">
-                        <h2 class="font-black mb-6 uppercase text-sm tracking-widest text-gravel-amber">Tambah Persediaan</h2>
-                        <div class="space-y-4">
-                            <input type="text" id="itemName" placeholder="Nama Barang" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
-                            <input type="number" id="itemPrice" placeholder="Harga Jual (Rp)" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
-                            <input type="number" id="itemStock" placeholder="Stok Awal" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
-                            <button onclick="saveItem()" class="w-full bg-gravel-amber text-gravel-dark font-black py-4 rounded-2xl uppercase text-[10px]">Simpan ke Gudang</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="faktur_jual" class="page-content">
-                    <div class="max-w-2xl bg-white p-10 rounded-3xl border shadow-lg">
-                        <h2 class="font-black text-xl mb-6 uppercase tracking-tighter">Faktur Penjualan Baru</h2>
-                        <div class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-[10px] font-bold text-gray-400 uppercase">Pelanggan</label>
-                                    <select id="selectPelanggan" class="w-full p-4 bg-gray-50 border rounded-2xl text-sm font-bold mt-1"></select>
-                                </div>
-                                <div>
-                                    <label class="text-[10px] font-bold text-gray-400 uppercase">Barang</label>
-                                    <select id="selectBarang" class="w-full p-4 bg-gray-50 border rounded-2xl text-sm font-bold mt-1"></select>
-                                </div>
-                            </div>
-                            <button onclick="prosesFaktur()" class="w-full bg-gravel-terracotta text-white font-bold py-5 rounded-2xl uppercase text-xs tracking-widest shadow-xl">Selesaikan Transaksi & Jurnal</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="jurnal" class="page-content">
-                    <div class="bg-white rounded-3xl border shadow-sm overflow-hidden">
-                        <table class="w-full text-left text-[11px]">
-                            <thead class="bg-gray-50 border-b">
-                                <tr>
-                                    <th class="p-4 font-black uppercase text-gray-400">Tgl</th>
-                                    <th class="p-4 font-black uppercase text-gray-400">Keterangan</th>
-                                    <th class="p-4 font-black uppercase text-gray-400">Akun</th>
-                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Debit</th>
-                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Kredit</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableJurnal">
-                                <tr><td colspan="5" class="p-10 text-center text-gray-300 italic text-sm">Belum ada catatan jurnal...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                    <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4" id="inventoryDisplay"></div>
                 </div>
             </div>
         </main>
     </div>
 
+    <div id="notif" class="fixed bottom-10 right-10 translate-x-[150%] transition-all duration-500 glass-card px-6 py-4 border-l-4 border-emerald-500 flex items-center gap-4 shadow-2xl">
+        <div class="text-emerald-500"><i class="fas fa-bell"></i></div>
+        <p id="notifMsg" class="text-xs font-bold text-white"></p>
+    </div>
+
     <script>
-        // --- DATABASE & STATE ---
-        let customers = [{name: "Umum (Walk-in)", cat: "Umum"}];
-        let inventory = [{name: "Gravel Part A", harga: 150000, stok: 10}];
-        let ledger = [];
-        let finance = { omzet: 0, laba: 0, zakat: 0 };
-        let salesTrend = [0, 0, 0, 0, 0, 0, 0];
-        let chartInstance = null;
+        let state = {
+            omzet: 0,
+            cart: [],
+            inventory: [
+                { nama: "Ban Luar Gravel", stok: 12, unit: "pcs", limit: 3 },
+                { nama: "Rantai 11 Speed", stok: 5, unit: "box", limit: 2 },
+                { nama: "Kampas Rem", stok: 20, unit: "set", limit: 5 },
+                { nama: "Bar Tape", stok: 8, unit: "roll", limit: 3 }
+            ],
+            parts: [
+                { id: 1, nama: "Ban Continental", harga: 650000, icon: "⭕" },
+                { id: 2, nama: "Rantai Shimano", harga: 420000, icon: "⛓️" },
+                { id: 3, nama: "Brake Pad Ceramic", harga: 150000, icon: "⏹️" },
+                { id: 4, nama: "Bar Tape Ciclovation", harga: 380000, icon: "➰" }
+            ]
+        };
 
-        // --- AUTH ---
-        function handleLogin(e) {
-            e.preventDefault();
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('mainDashboard').style.display = 'flex';
-            document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-            updateDropdowns();
+        window.onload = () => {
+            renderMenu();
+            renderInventory();
             initChart();
-            addLog("Admin Login Berhasil");
+            updateSyariahLog();
+            document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        function showPage(id, btn) {
+        function showPage(pageId, btn) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.getElementById('pageTitle').innerText = id.replace('_', ' ').toUpperCase();
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('pageTitle').innerText = pageId === 'overview' ? 'Monitor' : (pageId === 'pos' ? 'Kasir Part' : 'Gudang');
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            if(btn) btn.classList.add('active');
         }
 
-        function toggleSub(btn) {
-            btn.nextElementSibling.classList.toggle('open');
-            btn.querySelector('.rotate-icon').classList.toggle('active');
-        }
-
-        // --- MASTER DATA FUNCTIONS ---
-        function saveCustomer() {
-            const name = document.getElementById('custName').value;
-            const cat = document.getElementById('custCat').value;
-            if(!name) return alert("Nama pelanggan wajib diisi!");
-            customers.push({name, cat});
-            addLog(`Pelanggan Baru: ${name}`);
-            updateDropdowns();
-            alert("Pelanggan Berhasil Disimpan!");
-            showPage('overview');
-        }
-
-        function saveItem() {
-            const name = document.getElementById('itemName').value;
-            const harga = parseInt(document.getElementById('itemPrice').value);
-            const stok = parseInt(document.getElementById('itemStock').value);
-            if(!name || !harga) return alert("Lengkapi data barang!");
-            inventory.push({name, harga, stok});
-            addLog(`Barang Baru: ${name} (Stok: ${stok})`);
-            updateDropdowns();
-            alert("Barang Berhasil Disimpan!");
-            showPage('overview');
-        }
-
-        function updateDropdowns() {
-            document.getElementById('selectPelanggan').innerHTML = customers.map(c => `<option>${c.name}</option>`).join('');
-            document.getElementById('selectBarang').innerHTML = inventory.map(i => `<option value="${i.harga}">${i.name} - Rp${i.harga.toLocaleString()}</option>`).join('');
-        }
-
-        // --- TRANSACTION & AUTO JOURNAL ---
-        function prosesFaktur() {
-            const amount = parseInt(document.getElementById('selectBarang').value);
-            const cust = document.getElementById('selectPelanggan').value;
-            const tgl = new Date().toLocaleDateString('id-ID');
-
-            // 1. Update Finance
-            finance.omzet += amount;
-            finance.laba += (amount * 0.3); // Margin 30%
-            finance.zakat = finance.omzet * 0.025;
-
-            // 2. CREATE AUTO JURNAL
-            // Jurnal Penjualan
-            addJournal(tgl, `Penjualan kpd ${cust}`, "Piutang Usaha", amount, 0);
-            addJournal(tgl, `Penjualan kpd ${cust}`, "Pendapatan Jual", 0, amount);
-            // Jurnal Pelunasan (Simulasi Cash)
-            addJournal(tgl, `Pelunasan Faktur ${cust}`, "Kas & Bank", amount, 0);
-            addJournal(tgl, `Pelunasan Faktur ${cust}`, "Piutang Usaha", 0, amount);
-            // Jurnal Zakat
-            const z = amount * 0.025;
-            addJournal(tgl, "Pencadangan Zakat", "Beban Zakat", z, 0);
-            addJournal(tgl, "Pencadangan Zakat", "Hutang Zakat", 0, z);
-
-            // 3. UI Update
-            salesTrend[6] += 1;
-            if(chartInstance) chartInstance.update();
-            renderJurnal();
-            updateKPI();
-            addLog(`Faktur Terbit: Rp${amount.toLocaleString()}`);
-            alert("Transaksi Sukses & Jurnal Dibuat!");
-            showPage('overview');
-        }
-
-        function addJournal(tgl, ket, akun, d, k) {
-            ledger.unshift({ tgl, ket, akun, d, k });
-        }
-
-        function renderJurnal() {
-            const body = document.getElementById('tableJurnal');
-            if(ledger.length === 0) return;
-            body.innerHTML = ledger.map(j => `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4 text-gray-400">${j.tgl}</td>
-                    <td class="p-4 font-semibold">${j.ket}</td>
-                    <td class="p-4 ${j.k > 0 ? 'pl-8 text-gravel-terracotta' : 'text-gravel-green font-bold'}">${j.akun}</td>
-                    <td class="p-4 text-right">${j.d > 0 ? 'Rp'+j.d.toLocaleString() : '-'}</td>
-                    <td class="p-4 text-right">${j.k > 0 ? 'Rp'+j.k.toLocaleString() : '-'}</td>
-                </tr>
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = state.parts.map(p => `
+                <button onclick="addToCart(${p.id})" class="glass-card p-6 text-left hover:border-emerald-500 transition-all group">
+                    <span class="text-3xl mb-4 block">${p.icon}</span>
+                    <h4 class="font-bold text-white text-[10px] uppercase mb-1">${p.nama}</h4>
+                    <p class="text-emerald-400 font-black text-xs">Rp ${p.harga.toLocaleString()}</p>
+                </button>
             `).join('');
         }
 
-        function updateKPI() {
-            document.getElementById('kpiOmzet').innerText = "Rp " + finance.omzet.toLocaleString();
-            document.getElementById('kpiLaba').innerText = "Rp " + finance.laba.toLocaleString();
-            document.getElementById('kpiZakat').innerText = "Rp " + finance.zakat.toLocaleString();
+        function renderInventory() {
+            const display = document.getElementById('inventoryDisplay');
+            display.innerHTML = state.inventory.map(item => `
+                <div class="glass-card p-5 flex justify-between items-center ${item.stok <= item.limit ? 'border-amber-500/30' : ''}">
+                    <div>
+                        <p class="text-[9px] font-bold text-slate-500 uppercase">${item.nama}</p>
+                        <h2 class="text-xl font-black ${item.stok <= item.limit ? 'text-amber-500' : 'text-white'}">${item.stok} <span class="text-[10px] font-normal opacity-40">${item.unit}</span></h2>
+                    </div>
+                    <span class="text-[8px] font-black px-2 py-1 rounded bg-slate-900 ${item.stok <= item.limit ? 'text-amber-500' : 'text-emerald-500'} uppercase">
+                        ${item.stok <= item.limit ? 'Restock' : 'Aman'}
+                    </span>
+                </div>
+            `).join('');
         }
 
-        function addLog(msg) {
-            const log = document.getElementById('activityLog');
-            if(log.innerText.includes("Memulai")) log.innerHTML = "";
-            const t = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-            log.innerHTML = `<div class="p-3 bg-gray-50 rounded-xl border-l-2 border-gravel-amber mb-2">
-                <span class="font-black text-gravel-green">[${t}]</span> ${msg}
-            </div>` + log.innerHTML;
+        function addToCart(id) {
+            const item = state.parts.find(p => p.id === id);
+            state.cart.push(item);
+            renderCart();
+        }
+
+        function renderCart() {
+            const box = document.getElementById('cartItems');
+            let total = 0;
+            if(state.cart.length === 0) {
+                box.innerHTML = `<p class="text-center text-slate-600 italic">Belum ada part dipilih</p>`;
+            } else {
+                box.innerHTML = state.cart.map(item => {
+                    total += item.harga;
+                    return `<div class="flex justify-between"><span>${item.nama}</span><b>${item.harga.toLocaleString()}</b></div>`;
+                }).join('');
+            }
+            document.getElementById('cartTotal').innerText = "Rp " + total.toLocaleString();
+        }
+
+        function processTransaction() {
+            if(state.cart.length === 0) return;
+            const total = state.cart.reduce((a, b) => a + b.harga, 0);
+            state.omzet += total;
+            notify("Akad Berhasil: Rp " + total.toLocaleString());
+            state.cart = [];
+            renderCart();
+            updateKPIs();
+            updateSyariahLog();
+            showPage('overview');
+        }
+
+        function updateKPIs() {
+            document.getElementById('kpiJual').innerText = "Rp " + state.omzet.toLocaleString();
+            let profit = state.omzet * 0.20; // Margin 20%
+            document.getElementById('kpiZakat').innerText = "Rp " + (profit * 0.025).toLocaleString();
+        }
+
+        function updateSyariahLog() {
+            const log = document.getElementById('syariahLog');
+            log.innerHTML = `
+                <div class="flex gap-3 text-[10px]">
+                    <div class="w-1 bg-emerald-500 rounded-full"></div>
+                    <div><p class="text-white font-bold">VERIFIKASI AKAD</p><p class="text-slate-500">Margin keuntungan part divalidasi transparan.</p></div>
+                </div>
+                <div class="flex gap-3 text-[10px]">
+                    <div class="w-1 bg-blue-500 rounded-full"></div>
+                    <div><p class="text-white font-bold">BEBAS RIBA</p><p class="text-slate-500">Tidak ada denda keterlambatan atau biaya siluman.</p></div>
+                </div>
+            `;
+        }
+
+        function addStock() {
+            const nama = document.getElementById('inputNama').value;
+            const qty = parseInt(document.getElementById('inputQty').value);
+            if(!qty) return;
+            const item = state.inventory.find(i => i.nama === nama);
+            item.stok += qty;
+            renderInventory();
+            notify("Stok " + nama + " ditambahkan");
+        }
+
+        function notify(msg) {
+            const n = document.getElementById('notif');
+            document.getElementById('notifMsg').innerText = msg;
+            n.style.transform = "translateX(0)";
+            setTimeout(() => n.style.transform = "translateX(150%)", 3000);
         }
 
         function initChart() {
             const ctx = document.getElementById('salesChart').getContext('2d');
-            chartInstance = new Chart(ctx, {
+            new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['S', 'S', 'R', 'K', 'J', 'S', 'M'],
                     datasets: [{
-                        data: salesTrend,
-                        borderColor: '#1A4D2E',
-                        backgroundColor: 'rgba(26, 77, 46, 0.1)',
+                        data: [5, 8, 4, 10, 15, 25, 18],
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         fill: true,
-                        tension: 0.4,
-                        borderWidth: 4,
-                        pointRadius: 2
+                        tension: 0.4
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: { y: { display: false }, x: { grid: { display: false } } }
                 }
