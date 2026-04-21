@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Tamasya ERP - Syariah Accounting</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Gravel Tamasya ERP - Professional Syariah</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -28,17 +27,16 @@
     </script>
     
     <style>
-        body { background-color: #F3F4F6; margin: 0; padding: 0; overflow: hidden; }
+        body { background-color: #F3F4F6; margin: 0; padding: 0; }
         #loginPage { background-color: #1A4D2E; position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; }
         #mainDashboard { display: none; height: 100vh; width: 100vw; }
         .submenu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background: rgba(0,0,0,0.2); }
         .submenu.open { max-height: 500px; }
         .rotate-icon { transition: transform 0.3s; }
         .rotate-icon.active { transform: rotate(180deg); }
-        .data-card { background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 16px; transition: all 0.3s ease; }
         .page-content { display: none; }
         .page-content.active { display: block; animation: fadeIn 0.4s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="font-sans antialiased text-gravel-dark">
@@ -48,251 +46,244 @@
             <div class="bg-white rounded-3xl p-8 shadow-2xl relative overflow-hidden text-center">
                 <div class="absolute top-0 left-0 w-full h-1.5 bg-gravel-gold"></div>
                 <h2 class="text-xl font-black text-gravel-dark uppercase mb-1">Gravel Tamasya</h2>
-                <p class="text-sm text-gray-500 mb-8 italic">Memperlancar proses penjualan</p>
-                <div class="space-y-4">
-                    <input type="text" id="userID" placeholder="ID User" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green font-semibold">
-                    <input type="password" id="userPass" placeholder="Password" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green">
-                    <button onclick="handleLogin()" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-gravel-dark transition-all uppercase tracking-widest text-xs">Masuk Dashboard</button>
-                </div>
+                <p class="text-sm text-gray-500 mb-8 italic text-xs">Sistem Akuntansi Penjualan</p>
+                <form onsubmit="handleLogin(event)" class="space-y-4">
+                    <input type="text" placeholder="ID User" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green font-semibold">
+                    <input type="password" placeholder="Password" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green">
+                    <button type="submit" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-gravel-dark transition-all uppercase tracking-widest text-xs">Masuk Dashboard</button>
+                </form>
             </div>
         </div>
     </div>
 
-    <div id="mainDashboard">
-        <aside class="w-64 bg-gravel-green flex flex-col border-r border-black/10 flex-shrink-0 h-full">
+    <div id="mainDashboard" class="flex">
+        <aside class="w-64 bg-gravel-green flex flex-col border-r border-black/10 flex-shrink-0 h-full overflow-y-auto">
             <div class="p-6 text-center border-b border-white/5">
-                <div class="w-10 h-10 bg-gravel-gold rounded-xl flex items-center justify-center mx-auto mb-2"><i class="fas fa-bicycle text-gravel-green"></i></div>
+                <div class="w-10 h-10 bg-gravel-gold rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg"><i class="fas fa-bicycle text-gravel-green"></i></div>
                 <p class="text-[10px] font-black tracking-widest text-white uppercase">Gravel Tamasya</p>
             </div>
             
-            <div class="flex-1 overflow-y-auto pt-4">
-                <nav class="px-3 space-y-1">
-                    <button onclick="showPage('overview', this)" class="w-full p-3 flex items-center gap-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm"><i class="fas fa-chart-pie w-5"></i> Dashboard</button>
+            <nav class="px-3 py-4 space-y-1">
+                <button onclick="showPage('overview', this)" class="w-full p-3 flex items-center gap-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm"><i class="fas fa-chart-pie w-5"></i> Dashboard</button>
 
-                    <div>
-                        <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
-                            <div class="flex items-center gap-3"><i class="fas fa-shopping-cart w-5"></i> Penjualan</div>
-                            <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
-                        </button>
-                        <div class="submenu ml-4 border-l border-white/10">
-                            <a href="#" onclick="showPage('faktur_jual')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Faktur Penjualan</a>
-                            <a href="#" onclick="showPage('penerimaan_jual')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Penerimaan Jual</a>
-                        </div>
+                <div>
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                        <div class="flex items-center gap-3"><i class="fas fa-shopping-cart w-5"></i> Penjualan</div>
+                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
+                    </button>
+                    <div class="submenu ml-4 border-l border-white/10">
+                        <a href="#" onclick="showPage('faktur_jual')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Faktur Penjualan</a>
+                        <a href="#" onclick="showPage('pelanggan')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">+ Tambah Pelanggan</a>
                     </div>
+                </div>
 
-                    <div>
-                        <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
-                            <div class="flex items-center gap-3"><i class="fas fa-book w-5"></i> Buku Besar</div>
-                            <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
-                        </button>
-                        <div class="submenu ml-4 border-l border-white/10">
-                            <a href="#" onclick="showPage('jurnal')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Jurnal Umum</a>
-                            <a href="#" onclick="showPage('akun')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Akun Perkiraan</a>
-                        </div>
+                <div>
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                        <div class="flex items-center gap-3"><i class="fas fa-boxes w-5"></i> Persediaan</div>
+                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
+                    </button>
+                    <div class="submenu ml-4 border-l border-white/10">
+                        <a href="#" onclick="showPage('stok_barang')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">+ Tambah Barang</a>
                     </div>
+                </div>
 
-                    <button onclick="openReportPopup()" class="w-full p-3 flex items-center gap-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm"><i class="fas fa-file-invoice-dollar w-5"></i> Daftar Laporan</button>
-                </nav>
-            </div>
+                <div>
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                        <div class="flex items-center gap-3"><i class="fas fa-book w-5"></i> Buku Besar</div>
+                        <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
+                    </button>
+                    <div class="submenu ml-4 border-l border-white/10">
+                        <a href="#" onclick="showPage('jurnal')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Jurnal Umum</a>
+                    </div>
+                </div>
+            </nav>
         </aside>
 
         <main class="flex-1 overflow-y-auto">
             <header class="bg-white border-b py-5 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-                <h1 id="pageTitle" class="text-lg font-black text-gravel-dark tracking-tighter uppercase">Monitor Bisnis</h1>
-                <div class="text-right">
-                    <p id="tanggal" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"></p>
-                </div>
+                <h1 id="pageTitle" class="text-lg font-black text-gravel-dark uppercase tracking-tighter">Dashboard</h1>
+                <p id="tanggal" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"></p>
             </header>
 
             <div class="p-8 space-y-8">
-                <div id="overview" class="page-content active">
+                <div id="overview" class="page-content active space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="data-card p-8 border-l-4 border-gravel-green shadow-sm">
-                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Kas & Bank (Neraca)</p>
-                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiKas">Rp 0</h3>
+                        <div class="bg-white p-6 rounded-3xl border-l-4 border-gravel-green shadow-sm">
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Laba/Rugi Tahun Ini</p>
+                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiLaba">Rp 0</h3>
                         </div>
-                        <div class="data-card p-8 border-l-4 border-gravel-amber shadow-sm">
-                            <p class="text-[10px] font-bold text-gravel-amber uppercase tracking-widest mb-1">Hutang Zakat (Kewajiban)</p>
+                        <div class="bg-white p-6 rounded-3xl border-l-4 border-gravel-amber shadow-sm">
+                            <p class="text-[10px] font-bold text-gravel-amber uppercase tracking-widest mb-1">Estimasi Zakat Mal</p>
                             <h3 class="text-3xl font-black text-gravel-dark" id="kpiHutangZakat">Rp 0</h3>
                         </div>
-                        <div class="data-card p-8 bg-gravel-green text-white">
-                            <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Total Penjualan (Laba/Rugi)</p>
+                        <div class="bg-gravel-green p-6 rounded-3xl text-white shadow-lg">
+                            <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Total Penjualan</p>
                             <h3 class="text-3xl font-black" id="kpiOmzet">Rp 0</h3>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 bg-white p-6 rounded-3xl border shadow-sm">
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Tren Penjualan</h4>
+                            <div class="h-64"><canvas id="salesChart"></canvas></div>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl border shadow-sm">
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Aktivitas Terakhir</h4>
+                            <div id="activityLog" class="space-y-4 text-[11px]">
+                                <p class="text-gray-300 italic">Belum ada aktivitas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pelanggan" class="page-content">
+                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
+                        <h2 class="font-black mb-6 uppercase text-sm tracking-widest">Registrasi Pelanggan</h2>
+                        <div class="space-y-4">
+                            <input type="text" id="custName" placeholder="Nama Pelanggan" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
+                            <select id="custCat" class="w-full p-3 bg-gray-50 border rounded-xl outline-none text-sm font-bold">
+                                <option value="Member">Member Gravel</option>
+                                <option value="Umum">Umum (Walk-in)</option>
+                            </select>
+                            <button onclick="saveCustomer()" class="w-full bg-gravel-green text-white font-bold py-3 rounded-xl uppercase text-xs">Simpan Pelanggan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stok_barang" class="page-content">
+                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
+                        <h2 class="font-black mb-6 uppercase text-sm tracking-widest text-gravel-amber">Tambah Persediaan</h2>
+                        <div class="space-y-4">
+                            <input type="text" id="itemName" placeholder="Nama Barang" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
+                            <input type="number" id="itemPrice" placeholder="Harga Jual (Rp)" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
+                            <input type="number" id="itemStock" placeholder="Stok Awal" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
+                            <button onclick="saveItem()" class="w-full bg-gravel-amber text-gravel-dark font-black py-3 rounded-xl uppercase text-xs">Update Stok</button>
                         </div>
                     </div>
                 </div>
 
                 <div id="faktur_jual" class="page-content">
-                    <div class="max-w-2xl bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
+                    <div class="max-w-2xl bg-white rounded-3xl p-10 shadow-sm border">
                         <h2 class="font-black text-xl mb-6 flex items-center gap-3"><i class="fas fa-file-invoice text-gravel-terracotta"></i> Buat Faktur Penjualan</h2>
                         <div class="space-y-6">
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
                                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pelanggan</label>
-                                    <select class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1">
-                                        <option>Member Gravel - Budi</option>
-                                        <option>Walk-in Customer</option>
-                                    </select>
+                                    <select id="selectPelanggan" class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1"></select>
                                 </div>
                                 <div>
-                                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pilih Part</label>
-                                    <select id="partSelect" class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1">
-                                        <option value="750000">Ban Maxxis Rambler - Rp 750k</option>
-                                        <option value="450000">Rantai Shimano 11sp - Rp 450k</option>
-                                    </select>
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Barang / Part</label>
+                                    <select id="selectBarang" class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1"></select>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 p-6 rounded-2xl flex justify-between items-center border border-dashed border-gray-300">
-                                <span class="font-bold text-gray-400 text-xs">TOTAL TAGIHAN</span>
-                                <span class="text-2xl font-black text-gravel-dark" id="valTagihan">Rp 750.000</span>
-                            </div>
-                            <button onclick="prosesFaktur()" class="w-full bg-gravel-terracotta text-white font-bold py-4 rounded-xl shadow-lg uppercase text-xs tracking-widest hover:bg-gravel-green transition-all">Simpan Faktur & Jurnal Otomatis</button>
+                            <button onclick="prosesFaktur()" class="w-full bg-gravel-terracotta text-white font-bold py-4 rounded-xl shadow-lg uppercase text-xs tracking-widest hover:bg-gravel-green transition-all">Selesaikan Transaksi & Jurnal</button>
                         </div>
-                    </div>
-                </div>
-
-                <div id="jurnal" class="page-content">
-                    <div class="data-card overflow-hidden">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-gray-50 border-b">
-                                <tr>
-                                    <th class="p-4 font-black uppercase text-gray-400">Tanggal</th>
-                                    <th class="p-4 font-black uppercase text-gray-400">Keterangan</th>
-                                    <th class="p-4 font-black uppercase text-gray-400">Akun</th>
-                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Debit</th>
-                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Kredit</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableJurnal">
-                                </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <div id="reportModal" class="fixed inset-0 bg-gravel-dark/90 hidden flex items-center justify-center z-[10000] p-4">
-        <div class="bg-white rounded-3xl w-full max-w-md p-8 relative">
-            <button onclick="closeReportPopup()" class="absolute top-6 right-6 text-gray-400"><i class="fas fa-times"></i></button>
-            <h3 class="text-xl font-black mb-8 tracking-tighter uppercase">Laporan Keuangan Real-Time</h3>
-            <div class="space-y-4">
-                <div class="p-6 bg-gray-50 rounded-2xl border hover:border-gravel-green cursor-pointer group" onclick="viewFinance('Laba Rugi')">
-                    <p class="font-bold text-sm">Laporan Laba / Rugi</p>
-                    <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-widest">Pendapatan - HPP - Beban Zakat</p>
-                </div>
-                <div class="p-6 bg-gray-50 rounded-2xl border hover:border-gravel-green cursor-pointer group" onclick="viewFinance('Neraca')">
-                    <p class="font-bold text-sm">Laporan Neraca</p>
-                    <p class="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-widest">Kas + Piutang vs Hutang Zakat</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // --- DATABASE MINI (Accounting State) ---
+        // --- DATABASE MINI ---
+        let customers = [{name: "Budi Santoso", cat: "Member"}];
+        let inventory = [{name: "Ban Maxxis Rambler", harga: 750000, stok: 10}];
+        let finance = { omzet: 0, laba: 0, zakat: 0 };
+        let salesData = [10, 25, 15, 30, 45, 20, 0]; // Data grafik
         let ledger = [];
-        let accounts = {
-            kas: 0,
-            piutang: 0,
-            pendapatan: 0,
-            hutangZakat: 0,
-            bebanZakat: 0
-        };
 
-        // --- CORE LOGIC ---
-        function handleLogin() {
+        function handleLogin(e) {
+            e.preventDefault();
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('mainDashboard').style.display = 'flex';
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+            updateDropdowns();
+            initChart();
+            addLog("Admin masuk ke sistem.");
         }
 
         function showPage(id, btn) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
-            document.getElementById('pageTitle').innerText = id.replace('_', ' ');
+            document.getElementById('pageTitle').innerText = id.replace('_', ' ').toUpperCase();
         }
 
         function toggleSub(btn) {
-            const sub = btn.nextElementSibling;
-            sub.classList.toggle('open');
+            btn.nextElementSibling.classList.toggle('open');
             btn.querySelector('.rotate-icon').classList.toggle('active');
         }
 
-        // --- TRANSAKSI & AUTO-JURNAL ---
-        function prosesFaktur() {
-            const amount = parseInt(document.getElementById('partSelect').value);
-            const tgl = new Date().toLocaleDateString('id-ID');
-
-            // 1. JURNAL PENJUALAN (AKRUAL)
-            // (D) Piutang Usaha
-            // (K) Pendapatan Penjualan
-            addJournal(tgl, "Faktur Penjualan #INV-001", "Piutang Usaha", amount, 0);
-            addJournal(tgl, "Faktur Penjualan #INV-001", "Pendapatan Penjualan", 0, amount);
-            
-            accounts.piutang += amount;
-            accounts.pendapatan += amount;
-
-            // 2. TRIGGER PEMBAYARAN OTOMATIS (Simulasi Pelunasan Langsung)
-            // (D) Kas & Bank
-            // (K) Piutang Usaha
-            addJournal(tgl, "Penerimaan Jual #INV-001", "Kas & Bank", amount, 0);
-            addJournal(tgl, "Penerimaan Jual #INV-001", "Piutang Usaha", 0, amount);
-            
-            accounts.kas += amount;
-            accounts.piutang -= amount;
-
-            // 3. AUTO-JURNAL ZAKAT (2.5% dari Penerimaan Kas)
-            const nilaiZakat = amount * 0.025;
-            // (D) Beban Zakat
-            // (K) Hutang Zakat
-            addJournal(tgl, "Pengakuan Zakat Mal (2.5%)", "Beban Zakat", nilaiZakat, 0);
-            addJournal(tgl, "Pengakuan Zakat Mal (2.5%)", "Hutang Zakat", 0, nilaiZakat);
-            
-            accounts.bebanZakat += nilaiZakat;
-            accounts.hutangZakat += nilaiZakat;
-
-            updateKPI();
-            renderJurnal();
-            alert("Akad Sah! Faktur disimpan & Jurnal Akuntansi otomatis dibuat.");
+        // --- MASTER DATA FUNCTIONS ---
+        function saveCustomer() {
+            const name = document.getElementById('custName').value;
+            const cat = document.getElementById('custCat').value;
+            if(!name) return;
+            customers.push({name, cat});
+            addLog(`Pelanggan baru: ${name} (${cat})`);
+            updateDropdowns();
+            alert("Data Pelanggan Disimpan!");
             showPage('overview');
         }
 
-        function addJournal(tgl, ket, akun, d, k) {
-            ledger.unshift({ tgl, ket, akun, d, k });
+        function saveItem() {
+            const name = document.getElementById('itemName').value;
+            const harga = parseInt(document.getElementById('itemPrice').value);
+            const stok = parseInt(document.getElementById('itemStock').value);
+            if(!name || !harga) return;
+            inventory.push({name, harga, stok});
+            addLog(`Barang baru: ${name} - Rp${harga.toLocaleString()}`);
+            updateDropdowns();
+            alert("Stok Persediaan Ditambahkan!");
+            showPage('overview');
         }
 
-        function renderJurnal() {
-            const body = document.getElementById('tableJurnal');
-            body.innerHTML = ledger.map(j => `
-                <tr class="border-b hover:bg-gray-50">
-                    <td class="p-4">${j.tgl}</td>
-                    <td class="p-4 font-medium">${j.ket}</td>
-                    <td class="p-4 font-bold ${j.k > 0 ? 'pl-8 text-gravel-terracotta' : 'text-gravel-green'}">${j.akun}</td>
-                    <td class="p-4 text-right">${j.d > 0 ? 'Rp '+j.d.toLocaleString() : '-'}</td>
-                    <td class="p-4 text-right">${j.k > 0 ? 'Rp '+j.k.toLocaleString() : '-'}</td>
-                </tr>
-            `).join('');
+        function updateDropdowns() {
+            document.getElementById('selectPelanggan').innerHTML = customers.map(c => `<option>${c.name} [${c.cat}]</option>`).join('');
+            document.getElementById('selectBarang').innerHTML = inventory.map(i => `<option value="${i.harga}">${i.name} - Rp${i.harga.toLocaleString()}</option>`).join('');
         }
 
-        function updateKPI() {
-            document.getElementById('kpiKas').innerText = "Rp " + accounts.kas.toLocaleString();
-            document.getElementById('kpiOmzet').innerText = "Rp " + accounts.pendapatan.toLocaleString();
-            document.getElementById('kpiHutangZakat').innerText = "Rp " + accounts.hutangZakat.toLocaleString();
+        function prosesFaktur() {
+            const amount = parseInt(document.getElementById('selectBarang').value);
+            finance.omzet += amount;
+            finance.laba += (amount * 0.2); // Simulasi laba 20%
+            finance.zakat = finance.omzet * 0.025;
+
+            salesData[6] += 1; // Update grafik
+            if(window.salesChart) window.salesChart.update();
+
+            document.getElementById('kpiOmzet').innerText = "Rp " + finance.omzet.toLocaleString();
+            document.getElementById('kpiLaba').innerText = "Rp " + finance.laba.toLocaleString();
+            document.getElementById('kpiHutangZakat').innerText = "Rp " + finance.zakat.toLocaleString();
+
+            addLog(`Transaksi Berhasil: Rp ${amount.toLocaleString()}`);
+            alert("Akad Sah! Transaksi berhasil dijurnal.");
+            showPage('overview');
         }
 
-        // --- LAPORAN POPUP ---
-        function openReportPopup() { document.getElementById('reportModal').classList.remove('hidden'); }
-        function closeReportPopup() { document.getElementById('reportModal').classList.add('hidden'); }
-        
-        function viewFinance(type) {
-            let msg = "";
-            if(type === 'Laba Rugi') {
-                msg = `LAPORAN LABA RUGI\n---\nPendapatan: Rp ${accounts.pendapatan.toLocaleString()}\nBeban Zakat: (Rp ${accounts.bebanZakat.toLocaleString()})\n---\nLaba Bersih: Rp ${(accounts.pendapatan - accounts.bebanZakat).toLocaleString()}`;
-            } else {
-                msg = `LAPORAN NERACA\n---\nAKTIVA\nKas & Bank: Rp ${accounts.kas.toLocaleString()}\n\nPASIVA\nHutang Zakat: Rp ${accounts.hutangZakat.toLocaleString()}\nModal: Rp ${(accounts.kas - accounts.hutangZakat).toLocaleString()}`;
-            }
-            alert(msg);
+        function addLog(msg) {
+            const log = document.getElementById('activityLog');
+            if(log.innerText.includes("Belum ada")) log.innerHTML = "";
+            const time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+            log.innerHTML = `<div class="p-2 bg-gray-50 rounded-lg border-l-2 border-gravel-amber mb-2"><span class="font-bold">[${time}]</span> ${msg}</div>` + log.innerHTML;
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            window.salesChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    datasets: [{
+                        label: 'Frekuensi Penjualan',
+                        data: salesData,
+                        borderColor: '#1A4D2E',
+                        tension: 0.4,
+                        fill: true,
+                        backgroundColor: 'rgba(26, 77, 46, 0.1)'
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+            });
         }
     </script>
 </body>
