@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Tamasya ERP - Professional Syariah</title>
+    <title>Gravel Tamasya ERP - Jurnal & Master Data</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -42,15 +42,15 @@
 <body class="font-sans antialiased text-gravel-dark">
 
     <div id="loginPage">
-        <div class="max-w-md w-full px-6">
-            <div class="bg-white rounded-3xl p-8 shadow-2xl relative overflow-hidden text-center">
+        <div class="max-w-md w-full px-6 text-center">
+            <div class="bg-white rounded-3xl p-8 shadow-2xl relative">
                 <div class="absolute top-0 left-0 w-full h-1.5 bg-gravel-gold"></div>
                 <h2 class="text-xl font-black text-gravel-dark uppercase mb-1">Gravel Tamasya</h2>
-                <p class="text-sm text-gray-500 mb-8 italic text-xs">Sistem Akuntansi Penjualan</p>
+                <p class="text-[10px] text-gray-400 mb-8 font-bold uppercase tracking-widest">Sistem Akuntansi Syariah</p>
                 <form onsubmit="handleLogin(event)" class="space-y-4">
-                    <input type="text" placeholder="ID User" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green font-semibold">
+                    <input type="text" placeholder="ID Admin" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green font-semibold">
                     <input type="password" placeholder="Password" required class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:border-gravel-green">
-                    <button type="submit" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-gravel-dark transition-all uppercase tracking-widest text-xs">Masuk Dashboard</button>
+                    <button type="submit" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-gravel-dark transition-all uppercase tracking-widest text-xs">Masuk Sistem</button>
                 </form>
             </div>
         </div>
@@ -59,36 +59,37 @@
     <div id="mainDashboard" class="flex">
         <aside class="w-64 bg-gravel-green flex flex-col border-r border-black/10 flex-shrink-0 h-full overflow-y-auto">
             <div class="p-6 text-center border-b border-white/5">
-                <div class="w-10 h-10 bg-gravel-gold rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg"><i class="fas fa-bicycle text-gravel-green"></i></div>
+                <div class="w-10 h-10 bg-gravel-gold rounded-xl flex items-center justify-center mx-auto mb-2"><i class="fas fa-bicycle text-gravel-green"></i></div>
                 <p class="text-[10px] font-black tracking-widest text-white uppercase">Gravel Tamasya</p>
             </div>
             
             <nav class="px-3 py-4 space-y-1">
-                <button onclick="showPage('overview', this)" class="w-full p-3 flex items-center gap-3 text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm"><i class="fas fa-chart-pie w-5"></i> Dashboard</button>
+                <button onclick="showPage('overview', this)" class="w-full p-3 flex items-center gap-3 text-white hover:bg-white/10 rounded-lg text-sm transition-all"><i class="fas fa-th-large w-5"></i> Dashboard</button>
 
                 <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
                         <div class="flex items-center gap-3"><i class="fas fa-shopping-cart w-5"></i> Penjualan</div>
                         <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
                     </button>
                     <div class="submenu ml-4 border-l border-white/10">
                         <a href="#" onclick="showPage('faktur_jual')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Faktur Penjualan</a>
-                        <a href="#" onclick="showPage('pelanggan')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">+ Tambah Pelanggan</a>
+                        <a href="#" onclick="showPage('add_pelanggan')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold font-bold">+ Tambah Pelanggan</a>
                     </div>
                 </div>
 
                 <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
                         <div class="flex items-center gap-3"><i class="fas fa-boxes w-5"></i> Persediaan</div>
                         <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
                     </button>
                     <div class="submenu ml-4 border-l border-white/10">
-                        <a href="#" onclick="showPage('stok_barang')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">+ Tambah Barang</a>
+                        <a href="#" onclick="showPage('add_barang')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold font-bold">+ Tambah Barang</a>
+                        <a href="#" onclick="showPage('stok_list')" class="block p-2 pl-8 text-xs text-white/50 hover:text-gravel-gold">Daftar Stok</a>
                     </div>
                 </div>
 
                 <div>
-                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                    <button onclick="toggleSub(this)" class="w-full p-3 flex items-center justify-between text-white/70 hover:text-white rounded-lg text-sm">
                         <div class="flex items-center gap-3"><i class="fas fa-book w-5"></i> Buku Besar</div>
                         <i class="fas fa-chevron-down text-[10px] rotate-icon"></i>
                     </button>
@@ -101,7 +102,7 @@
 
         <main class="flex-1 overflow-y-auto">
             <header class="bg-white border-b py-5 px-8 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-                <h1 id="pageTitle" class="text-lg font-black text-gravel-dark uppercase tracking-tighter">Dashboard</h1>
+                <h1 id="pageTitle" class="text-lg font-black text-gravel-dark uppercase">Dashboard</h1>
                 <p id="tanggal" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest"></p>
             </header>
 
@@ -114,70 +115,89 @@
                         </div>
                         <div class="bg-white p-6 rounded-3xl border-l-4 border-gravel-amber shadow-sm">
                             <p class="text-[10px] font-bold text-gravel-amber uppercase tracking-widest mb-1">Estimasi Zakat Mal</p>
-                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiHutangZakat">Rp 0</h3>
+                            <h3 class="text-3xl font-black text-gravel-dark" id="kpiZakat">Rp 0</h3>
                         </div>
                         <div class="bg-gravel-green p-6 rounded-3xl text-white shadow-lg">
-                            <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Total Penjualan</p>
+                            <p class="text-[10px] font-bold text-white/50 uppercase tracking-widest mb-1">Total Omzet</p>
                             <h3 class="text-3xl font-black" id="kpiOmzet">Rp 0</h3>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 bg-white p-6 rounded-3xl border shadow-sm">
-                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Tren Penjualan</h4>
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4">Tren Penjualan Mingguan</h4>
                             <div class="h-64"><canvas id="salesChart"></canvas></div>
                         </div>
                         <div class="bg-white p-6 rounded-3xl border shadow-sm">
-                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4 tracking-widest">Aktivitas Terakhir</h4>
-                            <div id="activityLog" class="space-y-4 text-[11px]">
-                                <p class="text-gray-300 italic">Belum ada aktivitas...</p>
+                            <h4 class="text-xs font-black text-gray-400 uppercase mb-4">Aktivitas Terakhir</h4>
+                            <div id="activityLog" class="space-y-3 text-[11px]">
+                                <p class="text-gray-300 italic">Memulai sesi baru...</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div id="pelanggan" class="page-content">
-                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
+                <div id="add_pelanggan" class="page-content">
+                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-lg">
                         <h2 class="font-black mb-6 uppercase text-sm tracking-widest">Registrasi Pelanggan</h2>
                         <div class="space-y-4">
-                            <input type="text" id="custName" placeholder="Nama Pelanggan" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
-                            <select id="custCat" class="w-full p-3 bg-gray-50 border rounded-xl outline-none text-sm font-bold">
-                                <option value="Member">Member Gravel</option>
-                                <option value="Umum">Umum (Walk-in)</option>
+                            <input type="text" id="custName" placeholder="Nama Pelanggan" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
+                            <select id="custCat" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none font-bold text-sm">
+                                <option value="Member">Kategori: Member</option>
+                                <option value="Umum">Kategori: Umum (Walk-in)</option>
                             </select>
-                            <button onclick="saveCustomer()" class="w-full bg-gravel-green text-white font-bold py-3 rounded-xl uppercase text-xs">Simpan Pelanggan</button>
+                            <button onclick="saveCustomer()" class="w-full bg-gravel-green text-white font-bold py-4 rounded-2xl uppercase text-[10px]">Simpan Pelanggan</button>
                         </div>
                     </div>
                 </div>
 
-                <div id="stok_barang" class="page-content">
-                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-sm">
+                <div id="add_barang" class="page-content">
+                    <div class="max-w-md bg-white p-8 rounded-3xl border shadow-lg">
                         <h2 class="font-black mb-6 uppercase text-sm tracking-widest text-gravel-amber">Tambah Persediaan</h2>
                         <div class="space-y-4">
-                            <input type="text" id="itemName" placeholder="Nama Barang" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
-                            <input type="number" id="itemPrice" placeholder="Harga Jual (Rp)" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
-                            <input type="number" id="itemStock" placeholder="Stok Awal" class="w-full p-3 bg-gray-50 border rounded-xl outline-none">
-                            <button onclick="saveItem()" class="w-full bg-gravel-amber text-gravel-dark font-black py-3 rounded-xl uppercase text-xs">Update Stok</button>
+                            <input type="text" id="itemName" placeholder="Nama Barang" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
+                            <input type="number" id="itemPrice" placeholder="Harga Jual (Rp)" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
+                            <input type="number" id="itemStock" placeholder="Stok Awal" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none">
+                            <button onclick="saveItem()" class="w-full bg-gravel-amber text-gravel-dark font-black py-4 rounded-2xl uppercase text-[10px]">Simpan ke Gudang</button>
                         </div>
                     </div>
                 </div>
 
                 <div id="faktur_jual" class="page-content">
-                    <div class="max-w-2xl bg-white rounded-3xl p-10 shadow-sm border">
-                        <h2 class="font-black text-xl mb-6 flex items-center gap-3"><i class="fas fa-file-invoice text-gravel-terracotta"></i> Buat Faktur Penjualan</h2>
+                    <div class="max-w-2xl bg-white p-10 rounded-3xl border shadow-lg">
+                        <h2 class="font-black text-xl mb-6 uppercase tracking-tighter">Faktur Penjualan Baru</h2>
                         <div class="space-y-6">
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Pelanggan</label>
-                                    <select id="selectPelanggan" class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1"></select>
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase">Pelanggan</label>
+                                    <select id="selectPelanggan" class="w-full p-4 bg-gray-50 border rounded-2xl text-sm font-bold mt-1"></select>
                                 </div>
                                 <div>
-                                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Barang / Part</label>
-                                    <select id="selectBarang" class="w-full p-3 bg-gray-50 border rounded-xl text-sm font-semibold outline-none focus:border-gravel-green mt-1"></select>
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase">Barang</label>
+                                    <select id="selectBarang" class="w-full p-4 bg-gray-50 border rounded-2xl text-sm font-bold mt-1"></select>
                                 </div>
                             </div>
-                            <button onclick="prosesFaktur()" class="w-full bg-gravel-terracotta text-white font-bold py-4 rounded-xl shadow-lg uppercase text-xs tracking-widest hover:bg-gravel-green transition-all">Selesaikan Transaksi & Jurnal</button>
+                            <button onclick="prosesFaktur()" class="w-full bg-gravel-terracotta text-white font-bold py-5 rounded-2xl uppercase text-xs tracking-widest shadow-xl">Selesaikan Transaksi & Jurnal</button>
                         </div>
+                    </div>
+                </div>
+
+                <div id="jurnal" class="page-content">
+                    <div class="bg-white rounded-3xl border shadow-sm overflow-hidden">
+                        <table class="w-full text-left text-[11px]">
+                            <thead class="bg-gray-50 border-b">
+                                <tr>
+                                    <th class="p-4 font-black uppercase text-gray-400">Tgl</th>
+                                    <th class="p-4 font-black uppercase text-gray-400">Keterangan</th>
+                                    <th class="p-4 font-black uppercase text-gray-400">Akun</th>
+                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Debit</th>
+                                    <th class="p-4 font-black uppercase text-gray-400 text-right">Kredit</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableJurnal">
+                                <tr><td colspan="5" class="p-10 text-center text-gray-300 italic text-sm">Belum ada catatan jurnal...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -185,13 +205,15 @@
     </div>
 
     <script>
-        // --- DATABASE MINI ---
-        let customers = [{name: "Budi Santoso", cat: "Member"}];
-        let inventory = [{name: "Ban Maxxis Rambler", harga: 750000, stok: 10}];
-        let finance = { omzet: 0, laba: 0, zakat: 0 };
-        let salesData = [10, 25, 15, 30, 45, 20, 0]; // Data grafik
+        // --- DATABASE & STATE ---
+        let customers = [{name: "Umum (Walk-in)", cat: "Umum"}];
+        let inventory = [{name: "Gravel Part A", harga: 150000, stok: 10}];
         let ledger = [];
+        let finance = { omzet: 0, laba: 0, zakat: 0 };
+        let salesTrend = [0, 0, 0, 0, 0, 0, 0];
+        let chartInstance = null;
 
+        // --- AUTH ---
         function handleLogin(e) {
             e.preventDefault();
             document.getElementById('loginPage').style.display = 'none';
@@ -199,7 +221,7 @@
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
             updateDropdowns();
             initChart();
-            addLog("Admin masuk ke sistem.");
+            addLog("Admin Login Berhasil");
         }
 
         function showPage(id, btn) {
@@ -217,11 +239,11 @@
         function saveCustomer() {
             const name = document.getElementById('custName').value;
             const cat = document.getElementById('custCat').value;
-            if(!name) return;
+            if(!name) return alert("Nama pelanggan wajib diisi!");
             customers.push({name, cat});
-            addLog(`Pelanggan baru: ${name} (${cat})`);
+            addLog(`Pelanggan Baru: ${name}`);
             updateDropdowns();
-            alert("Data Pelanggan Disimpan!");
+            alert("Pelanggan Berhasil Disimpan!");
             showPage('overview');
         }
 
@@ -229,60 +251,107 @@
             const name = document.getElementById('itemName').value;
             const harga = parseInt(document.getElementById('itemPrice').value);
             const stok = parseInt(document.getElementById('itemStock').value);
-            if(!name || !harga) return;
+            if(!name || !harga) return alert("Lengkapi data barang!");
             inventory.push({name, harga, stok});
-            addLog(`Barang baru: ${name} - Rp${harga.toLocaleString()}`);
+            addLog(`Barang Baru: ${name} (Stok: ${stok})`);
             updateDropdowns();
-            alert("Stok Persediaan Ditambahkan!");
+            alert("Barang Berhasil Disimpan!");
             showPage('overview');
         }
 
         function updateDropdowns() {
-            document.getElementById('selectPelanggan').innerHTML = customers.map(c => `<option>${c.name} [${c.cat}]</option>`).join('');
+            document.getElementById('selectPelanggan').innerHTML = customers.map(c => `<option>${c.name}</option>`).join('');
             document.getElementById('selectBarang').innerHTML = inventory.map(i => `<option value="${i.harga}">${i.name} - Rp${i.harga.toLocaleString()}</option>`).join('');
         }
 
+        // --- TRANSACTION & AUTO JOURNAL ---
         function prosesFaktur() {
             const amount = parseInt(document.getElementById('selectBarang').value);
+            const cust = document.getElementById('selectPelanggan').value;
+            const tgl = new Date().toLocaleDateString('id-ID');
+
+            // 1. Update Finance
             finance.omzet += amount;
-            finance.laba += (amount * 0.2); // Simulasi laba 20%
+            finance.laba += (amount * 0.3); // Margin 30%
             finance.zakat = finance.omzet * 0.025;
 
-            salesData[6] += 1; // Update grafik
-            if(window.salesChart) window.salesChart.update();
+            // 2. CREATE AUTO JURNAL
+            // Jurnal Penjualan
+            addJournal(tgl, `Penjualan kpd ${cust}`, "Piutang Usaha", amount, 0);
+            addJournal(tgl, `Penjualan kpd ${cust}`, "Pendapatan Jual", 0, amount);
+            // Jurnal Pelunasan (Simulasi Cash)
+            addJournal(tgl, `Pelunasan Faktur ${cust}`, "Kas & Bank", amount, 0);
+            addJournal(tgl, `Pelunasan Faktur ${cust}`, "Piutang Usaha", 0, amount);
+            // Jurnal Zakat
+            const z = amount * 0.025;
+            addJournal(tgl, "Pencadangan Zakat", "Beban Zakat", z, 0);
+            addJournal(tgl, "Pencadangan Zakat", "Hutang Zakat", 0, z);
 
+            // 3. UI Update
+            salesTrend[6] += 1;
+            if(chartInstance) chartInstance.update();
+            renderJurnal();
+            updateKPI();
+            addLog(`Faktur Terbit: Rp${amount.toLocaleString()}`);
+            alert("Transaksi Sukses & Jurnal Dibuat!");
+            showPage('overview');
+        }
+
+        function addJournal(tgl, ket, akun, d, k) {
+            ledger.unshift({ tgl, ket, akun, d, k });
+        }
+
+        function renderJurnal() {
+            const body = document.getElementById('tableJurnal');
+            if(ledger.length === 0) return;
+            body.innerHTML = ledger.map(j => `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="p-4 text-gray-400">${j.tgl}</td>
+                    <td class="p-4 font-semibold">${j.ket}</td>
+                    <td class="p-4 ${j.k > 0 ? 'pl-8 text-gravel-terracotta' : 'text-gravel-green font-bold'}">${j.akun}</td>
+                    <td class="p-4 text-right">${j.d > 0 ? 'Rp'+j.d.toLocaleString() : '-'}</td>
+                    <td class="p-4 text-right">${j.k > 0 ? 'Rp'+j.k.toLocaleString() : '-'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function updateKPI() {
             document.getElementById('kpiOmzet').innerText = "Rp " + finance.omzet.toLocaleString();
             document.getElementById('kpiLaba').innerText = "Rp " + finance.laba.toLocaleString();
-            document.getElementById('kpiHutangZakat').innerText = "Rp " + finance.zakat.toLocaleString();
-
-            addLog(`Transaksi Berhasil: Rp ${amount.toLocaleString()}`);
-            alert("Akad Sah! Transaksi berhasil dijurnal.");
-            showPage('overview');
+            document.getElementById('kpiZakat').innerText = "Rp " + finance.zakat.toLocaleString();
         }
 
         function addLog(msg) {
             const log = document.getElementById('activityLog');
-            if(log.innerText.includes("Belum ada")) log.innerHTML = "";
-            const time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
-            log.innerHTML = `<div class="p-2 bg-gray-50 rounded-lg border-l-2 border-gravel-amber mb-2"><span class="font-bold">[${time}]</span> ${msg}</div>` + log.innerHTML;
+            if(log.innerText.includes("Memulai")) log.innerHTML = "";
+            const t = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+            log.innerHTML = `<div class="p-3 bg-gray-50 rounded-xl border-l-2 border-gravel-amber mb-2">
+                <span class="font-black text-gravel-green">[${t}]</span> ${msg}
+            </div>` + log.innerHTML;
         }
 
         function initChart() {
             const ctx = document.getElementById('salesChart').getContext('2d');
-            window.salesChart = new Chart(ctx, {
+            chartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                    labels: ['S', 'S', 'R', 'K', 'J', 'S', 'M'],
                     datasets: [{
-                        label: 'Frekuensi Penjualan',
-                        data: salesData,
+                        data: salesTrend,
                         borderColor: '#1A4D2E',
-                        tension: 0.4,
+                        backgroundColor: 'rgba(26, 77, 46, 0.1)',
                         fill: true,
-                        backgroundColor: 'rgba(26, 77, 46, 0.1)'
+                        tension: 0.4,
+                        borderWidth: 4,
+                        pointRadius: 2
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { display: false }, x: { grid: { display: false } } }
+                }
             });
         }
     </script>
