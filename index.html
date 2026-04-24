@@ -3,108 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Siddeeq Cycle Works - Sparepart & Service</title>
+    <title>Siddeeq Cycle Works - Finansial & POS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #10B981;
-            --secondary: #3B82F6;
-            --accent: #64748B;
-            --dark-bg: #0F172A;
-            --card-bg: #1E293B;
-        }
-        body { background-color: var(--dark-bg); color: #F1F5F9; }
-        .glass-card { 
-            background: var(--card-bg); 
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-        }
+        :root { --primary: #10B981; --secondary: #3B82F6; --dark-bg: #0F172A; --card-bg: #1E293B; }
+        body { background-color: var(--dark-bg); color: #F1F5F9; font-family: 'Inter', sans-serif; }
+        .glass-card { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; }
         .sidebar-item { transition: all 0.3s ease; color: #94A3B8; }
-        .sidebar-item.active { 
-            background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 100%);
-            border-left: 4px solid var(--primary);
-            color: var(--primary);
-        }
+        .sidebar-item.active { background: linear-gradient(90deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 100%); border-left: 4px solid var(--primary); color: var(--primary); }
         .page-content { display: none; animation: fadeIn 0.4s ease-out; }
         .page-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        input, select { background: #0F172A !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
     </style>
 </head>
-<body class="font-sans antialiased">
+<body class="antialiased">
 
     <div class="flex h-screen overflow-hidden">
         <aside class="w-20 md:w-64 bg-[#020617] flex flex-col items-center py-10 border-r border-white/5">
-            <div class="mb-12">
-                <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div class="mb-12 text-center">
+                <div class="w-12 h-12 bg-emerald-500 rounded-xl flex items-center justify-center shadow-lg mx-auto">
                     <i class="fas fa-bicycle text-white text-xl"></i>
                 </div>
-                <p class="hidden md:block mt-4 text-[10px] font-black tracking-widest text-emerald-500 text-center uppercase">Siddeeq Cycle Works</p>
+                <p class="hidden md:block mt-4 text-[10px] font-black tracking-widest text-emerald-500 uppercase">Siddeeq Cycle Works</p>
             </div>
             
             <nav class="flex-1 w-full px-4 space-y-2">
                 <button onclick="showPage('overview', this)" class="sidebar-item active w-full py-4 px-6 flex items-center gap-4 rounded-xl">
-                    <i class="fas fa-chart-pie"></i>
-                    <span class="hidden md:block font-bold">Monitor</span>
+                    <i class="fas fa-chart-line"></i><span class="hidden md:block font-bold">Laporan</span>
                 </button>
                 <button onclick="showPage('pos', this)" class="sidebar-item w-full py-4 px-6 flex items-center gap-4 rounded-xl">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="hidden md:block font-bold">Kasir Part</span>
+                    <i class="fas fa-shopping-cart"></i><span class="hidden md:block font-bold">Kasir</span>
+                </button>
+                <button onclick="showPage('finance', this)" class="sidebar-item w-full py-4 px-6 flex items-center gap-4 rounded-xl">
+                    <i class="fas fa-wallet"></i><span class="hidden md:block font-bold">Keuangan</span>
                 </button>
                 <button onclick="showPage('stok', this)" class="sidebar-item w-full py-4 px-6 flex items-center gap-4 rounded-xl">
-                    <i class="fas fa-warehouse"></i>
-                    <span class="hidden md:block font-bold">Gudang</span>
+                    <i class="fas fa-warehouse"></i><span class="hidden md:block font-bold">Gudang</span>
                 </button>
             </nav>
         </aside>
 
         <main class="flex-1 overflow-y-auto p-6 md:p-10">
-            <header class="flex justify-between items-center mb-10">
+            <header class="flex justify-between items-center mb-8">
                 <div>
-                    <h1 class="text-3xl font-black text-white uppercase tracking-tight" id="pageTitle">Dashboard</h1>
-                    <p id="tanggal" class="text-xs text-slate-400 font-medium mt-1"></p>
-                </div>
-                <div class="flex items-center gap-4 bg-slate-800/50 p-2 pr-6 rounded-full border border-white/5">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">SC</div>
-                    <div class="hidden md:block">
-                        <p class="text-xs font-bold text-white">Admin Siddeeq</p>
-                        <p class="text-[10px] text-emerald-400">Workshop Active</p>
-                    </div>
+                    <h1 class="text-2xl font-black text-white uppercase tracking-tight" id="pageTitle">Laporan Laba/Rugi</h1>
+                    <p id="tanggal" class="text-xs text-slate-400"></p>
                 </div>
             </header>
 
             <div id="overview" class="page-content active">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-                    <div class="glass-card p-6 border-b-4 border-emerald-500">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Penjualan Hari Ini</p>
-                        <h2 class="text-2xl font-black text-white" id="kpiJual">Rp 0</h2>
-                        <p class="text-[10px] text-emerald-400 mt-2"><i class="fas fa-caret-up"></i> Terhitung dari Omzet</p>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="glass-card p-6 border-l-4 border-blue-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Saldo Petty Cash</p>
+                        <h2 class="text-2xl font-black" id="kpiCash">Rp 0</h2>
                     </div>
-                    <div class="glass-card p-6 border-b-4 border-blue-500">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Estimasi Zakat Mal</p>
-                        <h2 class="text-2xl font-black text-white" id="kpiZakat">Rp 0</h2>
-                        <p class="text-[10px] text-slate-500 mt-2 italic">Akumulasi 2.5% dari Profit Bersih</p>
+                    <div class="glass-card p-6 border-l-4 border-emerald-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Laba Bersih</p>
+                        <h2 class="text-2xl font-black" id="kpiNetProfit">Rp 0</h2>
                     </div>
-                    <div class="glass-card p-6 border-b-4 border-slate-500">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Status Syariah</p>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-check-circle text-emerald-500"></i>
-                            <span class="text-sm font-bold text-white">AKAD MURABAHAH</span>
-                        </div>
-                        <p class="text-[10px] text-slate-500 mt-2 italic">Margin Transparan & Halal</p>
+                    <div class="glass-card p-6 border-l-4 border-amber-500">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Zakat Mal (2.5%)</p>
+                        <h2 class="text-2xl font-black text-amber-500" id="kpiZakat">Rp 0</h2>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div class="glass-card p-6">
-                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Statistik Siddeeq Works</h3>
-                        <canvas id="salesChart" height="150"></canvas>
-                    </div>
-                    <div class="glass-card p-6">
-                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Log Audit Syariah</h3>
-                        <div id="syariahLog" class="space-y-4"></div>
-                        <button onclick="resetData()" class="mt-8 text-[9px] text-slate-600 hover:text-red-400 uppercase font-bold tracking-tighter">Reset Database Lokal</button>
+                <div class="glass-card p-8 mb-6">
+                    <h3 class="text-lg font-bold mb-6 border-b border-white/5 pb-4">Ringkasan Laba Rugi</h3>
+                    <div class="space-y-4 max-w-2xl">
+                        <div class="flex justify-between text-sm"><span>Total Penjualan (Omzet)</span><span id="rptOmzet" class="font-bold">Rp 0</span></div>
+                        <div class="flex justify-between text-sm text-red-400"><span>Total HPP (Harga Pokok)</span><span id="rptHPP">- Rp 0</span></div>
+                        <div class="border-t border-white/5 pt-2 flex justify-between font-bold text-emerald-400"><span>LABA KOTOR</span><span id="rptGross">Rp 0</span></div>
+                        <div class="flex justify-between text-sm text-red-400 mt-4"><span>Total Biaya Operasional</span><span id="rptOps">- Rp 0</span></div>
+                        <div class="border-t-2 border-white/10 pt-2 flex justify-between text-xl font-black text-white"><span>LABA BERSIH</span><span id="rptNet">Rp 0</span></div>
                     </div>
                 </div>
             </div>
@@ -112,45 +85,65 @@
             <div id="pos" class="page-content">
                 <div class="flex flex-col lg:flex-row gap-6">
                     <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4" id="menuGrid"></div>
-                    <div class="w-full lg:w-80">
-                        <div class="glass-card p-6 border-blue-500/20 border-2">
-                            <h3 class="text-center font-black text-sm uppercase mb-6 tracking-widest text-blue-400">Nota Siddeeq Works</h3>
-                            <div id="cartItems" class="space-y-3 mb-6 min-h-[200px] border-y border-white/5 py-4 text-[11px] font-mono">
-                                <p class="text-center text-slate-600 italic">Belum ada part dipilih</p>
+                    <div class="w-full lg:w-96">
+                        <div class="glass-card p-6 sticky top-0">
+                            <h3 class="font-bold text-blue-400 uppercase text-xs mb-4 tracking-widest">Billing Siddeeq</h3>
+                            <div id="cartItems" class="text-[11px] font-mono space-y-2 mb-4 min-h-[150px]"></div>
+                            <div class="border-t border-white/10 pt-4 mb-4">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">Metode Pembayaran</label>
+                                <select id="payMethod" class="w-full p-2 mt-1 rounded text-sm outline-none">
+                                    <option value="Cash">Cash (Tunai)</option>
+                                    <option value="QRIS">QRIS</option>
+                                    <option value="EDC">EDC (Debit/Kredit)</option>
+                                </select>
                             </div>
                             <div class="flex justify-between items-center mb-6">
-                                <span class="text-slate-400 text-[10px] font-bold">TOTAL</span>
-                                <span class="text-xl font-black text-white" id="cartTotal">Rp 0</span>
+                                <span class="font-bold">TOTAL</span>
+                                <span class="text-2xl font-black" id="cartTotal">Rp 0</span>
                             </div>
-                            <button onclick="processTransaction()" class="w-full bg-blue-600 hover:bg-emerald-600 text-white font-black py-4 rounded-xl transition-all uppercase text-xs tracking-tighter">
-                                Selesaikan Akad Jual Beli
-                            </button>
+                            <button onclick="processTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-700 py-4 rounded-xl font-black uppercase text-sm transition-all shadow-lg shadow-emerald-900/20">Bayar & Akad</button>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div id="finance" class="page-content">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-card p-6">
+                        <h3 class="text-sm font-bold text-emerald-500 uppercase mb-4">Pencatatan Petty Cash (Uang Masuk)</h3>
+                        <div class="space-y-3">
+                            <input id="inDesc" type="text" placeholder="Keterangan (Contoh: Modal Awal)" class="w-full p-3 rounded-lg text-sm">
+                            <input id="inAmount" type="number" placeholder="Nominal" class="w-full p-3 rounded-lg text-sm">
+                            <button onclick="addFinance('IN')" class="w-full bg-blue-600 py-3 rounded-lg font-bold uppercase text-[10px]">Simpan Kas Masuk</button>
+                        </div>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h3 class="text-sm font-bold text-red-500 uppercase mb-4">Biaya Operasional (Uang Keluar)</h3>
+                        <div class="space-y-3">
+                            <input id="outDesc" type="text" placeholder="Keterangan (Contoh: Listrik / Gaji)" class="w-full p-3 rounded-lg text-sm">
+                            <input id="outAmount" type="number" placeholder="Nominal" class="w-full p-3 rounded-lg text-sm">
+                            <button onclick="addFinance('OUT')" class="w-full bg-red-600 py-3 rounded-lg font-bold uppercase text-[10px]">Catat Biaya Pengeluaran</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 mt-6 overflow-x-auto">
+                    <h3 class="text-sm font-bold uppercase mb-4">Riwayat Transaksi Keuangan</h3>
+                    <table class="w-full text-left text-xs">
+                        <thead><tr class="border-b border-white/10"><th class="p-3">Tanggal</th><th>Keterangan</th><th>Tipe</th><th>Metode</th><th class="text-right p-3">Nominal</th></tr></thead>
+                        <tbody id="financeLog"></tbody>
+                    </table>
                 </div>
             </div>
 
             <div id="stok" class="page-content">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="glass-card p-6">
-                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Master Barang Siddeeq</h3>
-                        <div class="space-y-4">
-                            <div class="p-3 bg-slate-900/50 rounded-xl border border-white/5">
-                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Input Barang Baru</p>
-                                <input id="newName" type="text" placeholder="Nama Barang" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
-                                <input id="newModal" type="number" placeholder="Harga Modal (Pokok)" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
-                                <input id="newJual" type="number" placeholder="Harga Jual" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
-                                <button onclick="addNewItem()" class="w-full bg-emerald-600 text-white py-2 rounded text-[9px] font-black uppercase">Daftarkan Barang</button>
-                            </div>
-
-                            <hr class="border-white/5">
-
-                            <div>
-                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Update Stok</p>
-                                <select id="inputNama" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs font-bold outline-none mb-2"></select>
-                                <input id="inputQty" type="number" placeholder="Jumlah" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs outline-none focus:border-emerald-500 mb-2">
-                                <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Tambah Stok</button>
-                            </div>
+                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Master Barang</h3>
+                        <div class="space-y-3 p-3 bg-slate-900/50 rounded-xl">
+                            <input id="newName" type="text" placeholder="Nama Barang" class="w-full p-2 text-xs rounded">
+                            <input id="newModal" type="number" placeholder="Harga Pokok" class="w-full p-2 text-xs rounded">
+                            <input id="newJual" type="number" placeholder="Harga Jual" class="w-full p-2 text-xs rounded">
+                            <button onclick="addNewItem()" class="w-full bg-emerald-600 py-2 rounded font-bold text-[9px] uppercase">Daftarkan</button>
                         </div>
                     </div>
                     <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4" id="inventoryDisplay"></div>
@@ -160,114 +153,58 @@
     </div>
 
     <div id="notif" class="fixed bottom-10 right-10 translate-x-[150%] transition-all duration-500 glass-card px-6 py-4 border-l-4 border-emerald-500 flex items-center gap-4 shadow-2xl">
-        <div class="text-emerald-500"><i class="fas fa-bell"></i></div>
-        <p id="notifMsg" class="text-xs font-bold text-white"></p>
+        <p id="notifMsg" class="text-xs font-bold"></p>
     </div>
 
     <script>
-        // STATE UTAMA
         let state = {
-            omzet: 0,
-            totalProfit: 0,
-            cart: [],
+            cashBalance: 0,
+            totalOmzet: 0,
+            totalHPP: 0,
+            totalOps: 0,
+            transactions: [],
             inventory: [
-                { nama: "Ban Luar Gravel", stok: 12, unit: "pcs", limit: 3 },
-                { nama: "Rantai 11 Speed", stok: 5, unit: "box", limit: 2 },
-                { nama: "Kampas Rem", stok: 20, unit: "set", limit: 5 },
-                { nama: "Bar Tape", stok: 8, unit: "roll", limit: 3 }
+                { nama: "Ban Luar Gravel", stok: 10, unit: "pcs", limit: 2 },
+                { nama: "Rantai 11 Speed", stok: 5, unit: "box", limit: 1 }
             ],
             parts: [
                 { id: 1, nama: "Ban Luar Gravel", harga: 650000, modal: 500000, icon: "⭕" },
-                { id: 2, nama: "Rantai 11 Speed", harga: 420000, modal: 350000, icon: "⛓️" },
-                { id: 3, nama: "Kampas Rem", harga: 150000, modal: 100000, icon: "⏹️" },
-                { id: 4, nama: "Bar Tape", harga: 380000, modal: 280000, icon: "➰" }
-            ]
+                { id: 2, nama: "Rantai 11 Speed", harga: 420000, modal: 350000, icon: "⛓️" }
+            ],
+            cart: []
         };
 
-        // DATABASE LOKAL
-        function saveData() {
-            localStorage.setItem('siddeeq_db', JSON.stringify(state));
-        }
-
-        function resetData() {
-            if(confirm("Hapus semua data Siddeeq Cycle Works?")) {
-                localStorage.removeItem('siddeeq_db');
-                location.reload();
-            }
-        }
+        function saveData() { localStorage.setItem('siddeeq_v3_db', JSON.stringify(state)); }
 
         window.onload = () => {
-            const saved = localStorage.getItem('siddeeq_db');
+            const saved = localStorage.getItem('siddeeq_v3_db');
             if(saved) state = JSON.parse(saved);
-            
-            renderMenu();
-            renderInventory();
-            updateDropdown();
-            initChart();
-            updateKPIs();
-            updateSyariahLog();
+            renderAll();
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        // FUNGSI MASTER DATA
-        function addNewItem() {
-            const name = document.getElementById('newName').value;
-            const modal = parseInt(document.getElementById('newModal').value);
-            const jual = parseInt(document.getElementById('newJual').value);
-
-            if(!name || isNaN(modal) || isNaN(jual)) return alert("Mohon lengkapi data barang dengan benar!");
-
-            const newId = Date.now(); // ID unik
-            state.parts.push({ id: newId, nama: name, harga: jual, modal: modal, icon: "📦" });
-            state.inventory.push({ nama: name, stok: 0, unit: "pcs", limit: 2 });
-
-            saveData();
+        function renderAll() {
             renderMenu();
             renderInventory();
-            updateDropdown();
-            
-            document.getElementById('newName').value = "";
-            document.getElementById('newModal').value = "";
-            document.getElementById('newJual').value = "";
-            notify(name + " Berhasil Didaftarkan!");
-        }
-
-        function updateDropdown() {
-            const select = document.getElementById('inputNama');
-            select.innerHTML = state.inventory.map(i => `<option value="${i.nama}">${i.nama}</option>`).join('');
+            renderFinanceLog();
+            updateKPIs();
         }
 
         function showPage(pageId, btn) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            document.getElementById('pageTitle').innerText = pageId === 'overview' ? 'Monitor' : (pageId === 'pos' ? 'Kasir Part' : 'Gudang');
+            document.getElementById('pageTitle').innerText = btn.innerText;
             document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-            if(btn) btn.classList.add('active');
+            btn.classList.add('active');
         }
 
         function renderMenu() {
-            const grid = document.getElementById('menuGrid');
-            grid.innerHTML = state.parts.map(p => `
-                <button onclick="addToCart(${p.id})" class="glass-card p-6 text-left hover:border-emerald-500 transition-all group">
-                    <span class="text-3xl mb-4 block">${p.icon}</span>
-                    <h4 class="font-bold text-white text-[10px] uppercase mb-1">${p.nama}</h4>
+            document.getElementById('menuGrid').innerHTML = state.parts.map(p => `
+                <button onclick="addToCart(${p.id})" class="glass-card p-6 text-left hover:border-emerald-500 transition-all">
+                    <span class="text-2xl mb-2 block">${p.icon}</span>
+                    <h4 class="font-bold text-[10px] uppercase">${p.nama}</h4>
                     <p class="text-emerald-400 font-black text-xs">Rp ${p.harga.toLocaleString()}</p>
                 </button>
-            `).join('');
-        }
-
-        function renderInventory() {
-            const display = document.getElementById('inventoryDisplay');
-            display.innerHTML = state.inventory.map(item => `
-                <div class="glass-card p-5 flex justify-between items-center ${item.stok <= item.limit ? 'border-amber-500/30' : ''}">
-                    <div>
-                        <p class="text-[9px] font-bold text-slate-500 uppercase">${item.nama}</p>
-                        <h2 class="text-xl font-black ${item.stok <= item.limit ? 'text-amber-500' : 'text-white'}">${item.stok} <span class="text-[10px] font-normal opacity-40">${item.unit}</span></h2>
-                    </div>
-                    <span class="text-[8px] font-black px-2 py-1 rounded bg-slate-900 ${item.stok <= item.limit ? 'text-amber-500' : 'text-emerald-500'} uppercase">
-                        ${item.stok <= item.limit ? 'Restock' : 'Aman'}
-                    </span>
-                </div>
             `).join('');
         }
 
@@ -278,74 +215,127 @@
         }
 
         function renderCart() {
-            const box = document.getElementById('cartItems');
             let total = 0;
-            if(state.cart.length === 0) {
-                box.innerHTML = `<p class="text-center text-slate-600 italic">Belum ada part dipilih</p>`;
-            } else {
-                box.innerHTML = state.cart.map(item => {
-                    total += item.harga;
-                    return `<div class="flex justify-between"><span>${item.nama}</span><b>${item.harga.toLocaleString()}</b></div>`;
-                }).join('');
-            }
+            document.getElementById('cartItems').innerHTML = state.cart.map(item => {
+                total += item.harga;
+                return `<div class="flex justify-between"><span>${item.nama}</span><b>${item.harga.toLocaleString()}</b></div>`;
+            }).join('');
             document.getElementById('cartTotal').innerText = "Rp " + total.toLocaleString();
         }
 
         function processTransaction() {
             if(state.cart.length === 0) return;
-            
-            let omzetTrx = 0;
-            let profitTrx = 0;
+            const method = document.getElementById('payMethod').value;
+            let subtotal = 0;
+            let subHPP = 0;
 
             state.cart.forEach(item => {
-                omzetTrx += item.harga;
-                profitTrx += (item.harga - (item.modal || 0));
-                
-                const invItem = state.inventory.find(i => i.nama === item.nama);
-                if(invItem && invItem.stok > 0) invItem.stok--;
+                subtotal += item.harga;
+                subHPP += item.modal;
+                const inv = state.inventory.find(i => i.nama === item.nama);
+                if(inv && inv.stok > 0) inv.stok--;
             });
 
-            state.omzet += omzetTrx;
-            state.totalProfit += profitTrx;
+            state.totalOmzet += subtotal;
+            state.totalHPP += subHPP;
+            if(method === 'Cash') state.cashBalance += subtotal;
+
+            state.transactions.unshift({
+                date: new Date().toLocaleTimeString(),
+                desc: `Penjualan (${state.cart.length} item)`,
+                type: 'IN',
+                method: method,
+                amount: subtotal
+            });
+
+            state.cart = [];
+            saveData();
+            renderAll();
+            renderCart();
+            notify("Transaksi Berhasil via " + method);
+        }
+
+        function addFinance(type) {
+            const desc = type === 'IN' ? document.getElementById('inDesc').value : document.getElementById('outDesc').value;
+            const amount = parseInt(type === 'IN' ? document.getElementById('inAmount').value : document.getElementById('outAmount').value);
+
+            if(!desc || !amount) return alert("Lengkapi data!");
+
+            if(type === 'IN') {
+                state.cashBalance += amount;
+            } else {
+                state.cashBalance -= amount;
+                state.totalOps += amount;
+            }
+
+            state.transactions.unshift({
+                date: new Date().toLocaleTimeString(),
+                desc: desc,
+                type: type,
+                method: 'Cash',
+                amount: amount
+            });
 
             saveData();
-            notify("Akad Siddeeq Works Berhasil!");
-            state.cart = [];
-            renderCart();
-            renderInventory();
-            updateKPIs();
-            showPage('overview');
+            renderAll();
+            document.getElementById('inDesc').value = ''; document.getElementById('inAmount').value = '';
+            document.getElementById('outDesc').value = ''; document.getElementById('outAmount').value = '';
+            notify("Data Keuangan Tersimpan");
+        }
+
+        function renderFinanceLog() {
+            document.getElementById('financeLog').innerHTML = state.transactions.map(t => `
+                <tr class="border-b border-white/5">
+                    <td class="p-3 text-slate-500">${t.date}</td>
+                    <td class="font-bold">${t.desc}</td>
+                    <td><span class="px-2 py-0.5 rounded text-[9px] ${t.type === 'IN' ? 'bg-emerald-500/20 text-emerald-500' : 'bg-red-500/20 text-red-500'}">${t.type}</span></td>
+                    <td class="text-slate-400">${t.method}</td>
+                    <td class="text-right p-3 font-bold">${t.type === 'OUT' ? '-' : ''}Rp ${t.amount.toLocaleString()}</td>
+                </tr>
+            `).join('');
         }
 
         function updateKPIs() {
-            document.getElementById('kpiJual').innerText = "Rp " + state.omzet.toLocaleString();
-            const zakat = state.totalProfit * 0.025;
-            document.getElementById('kpiZakat').innerText = "Rp " + zakat.toLocaleString();
+            const grossProfit = state.totalOmzet - state.totalHPP;
+            const netProfit = grossProfit - state.totalOps;
+
+            document.getElementById('kpiCash').innerText = "Rp " + state.cashBalance.toLocaleString();
+            document.getElementById('kpiNetProfit').innerText = "Rp " + netProfit.toLocaleString();
+            document.getElementById('kpiZakat').innerText = "Rp " + (netProfit > 0 ? netProfit * 0.025 : 0).toLocaleString();
+
+            document.getElementById('rptOmzet').innerText = "Rp " + state.totalOmzet.toLocaleString();
+            document.getElementById('rptHPP').innerText = "- Rp " + state.totalHPP.toLocaleString();
+            document.getElementById('rptGross').innerText = "Rp " + grossProfit.toLocaleString();
+            document.getElementById('rptOps').innerText = "- Rp " + state.totalOps.toLocaleString();
+            document.getElementById('rptNet').innerText = "Rp " + netProfit.toLocaleString();
         }
 
-        function updateSyariahLog() {
-            const log = document.getElementById('syariahLog');
-            log.innerHTML = `
-                <div class="flex gap-3 text-[10px]">
-                    <div class="w-1 bg-emerald-500 rounded-full"></div>
-                    <div><p class="text-white font-bold">TRANSPARANSI MODAL</p><p class="text-slate-500">Margin dihitung dari harga pokok Siddeeq Works.</p></div>
-                </div>
-                <div class="flex gap-3 text-[10px]">
-                    <div class="w-1 bg-blue-500 rounded-full"></div>
-                    <div><p class="text-white font-bold">AKUMULASI ZAKAT</p><p class="text-slate-500">Otomatis menyisihkan 2.5% dari profit transaksi.</p></div>
-                </div>
-            `;
+        function addNewItem() {
+            const n = document.getElementById('newName').value;
+            const m = parseInt(document.getElementById('newModal').value);
+            const j = parseInt(document.getElementById('newJual').value);
+            if(!n || !m || !j) return;
+            state.parts.push({ id: Date.now(), nama: n, harga: j, modal: m, icon: "📦" });
+            state.inventory.push({ nama: n, stok: 0, unit: "pcs", limit: 2 });
+            saveData(); renderAll(); notify("Barang Terdaftar");
         }
 
-        function addStock() {
-            const nama = document.getElementById('inputNama').value;
-            const qty = parseInt(document.getElementById('inputQty').value);
-            if(isNaN(qty)) return;
-            const item = state.inventory.find(i => i.nama === nama);
-            item.stok += qty;
-            saveData();
-            renderInventory();
-            notify("Stok " + nama + " Berhasil Ditambah");
+        function renderInventory() {
+            document.getElementById('inventoryDisplay').innerHTML = state.inventory.map(i => `
+                <div class="glass-card p-4 flex justify-between items-center">
+                    <div><p class="text-[9px] text-slate-500 uppercase">${i.nama}</p>
+                    <h3 class="text-lg font-black">${i.stok} <span class="text-[10px] font-normal">pcs</span></h3></div>
+                    <button onclick="addStockManual('${i.nama}')" class="bg-slate-700 px-3 py-1 rounded text-[10px]">+</button>
+                </div>
+            `).join('');
+        }
+
+        function addStockManual(nama) {
+            const qty = parseInt(prompt("Tambah berapa stok untuk " + nama + "?"));
+            if(qty) {
+                const item = state.inventory.find(i => i.nama === nama);
+                item.stok += qty; saveData(); renderInventory();
+            }
         }
 
         function notify(msg) {
@@ -353,27 +343,6 @@
             document.getElementById('notifMsg').innerText = msg;
             n.style.transform = "translateX(0)";
             setTimeout(() => n.style.transform = "translateX(150%)", 3000);
-        }
-
-        function initChart() {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['S', 'S', 'R', 'K', 'J', 'S', 'M'],
-                    datasets: [{
-                        data: [12, 19, 13, 25, 22, 30, 28],
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    plugins: { legend: { display: false } },
-                    scales: { y: { display: false }, x: { grid: { display: false } } }
-                }
-            });
         }
     </script>
 </body>
