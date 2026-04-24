@@ -307,3 +307,9 @@
     </script>
 </body>
 </html>
+// Simpan data
+localStorage.setItem('gravelData', JSON.stringify(state));
+
+// Ambil data saat window.onload
+const savedData = localStorage.getItem('gravelData');
+if(savedData) state = JSON.parse(savedData);
