@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravel Tamasya - Sparepart & Service</title>
+    <title>Siddeeq Cycle Works - Sparepart & Service</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,7 +40,7 @@
                 <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
                     <i class="fas fa-bicycle text-white text-xl"></i>
                 </div>
-                <p class="hidden md:block mt-4 text-xs font-black tracking-widest text-emerald-500 text-center">GRAVEL TAMASYA</p>
+                <p class="hidden md:block mt-4 text-[10px] font-black tracking-widest text-emerald-500 text-center uppercase">Siddeeq Cycle Works</p>
             </div>
             
             <nav class="flex-1 w-full px-4 space-y-2">
@@ -66,9 +66,9 @@
                     <p id="tanggal" class="text-xs text-slate-400 font-medium mt-1"></p>
                 </div>
                 <div class="flex items-center gap-4 bg-slate-800/50 p-2 pr-6 rounded-full border border-white/5">
-                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">GT</div>
+                    <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">SC</div>
                     <div class="hidden md:block">
-                        <p class="text-xs font-bold text-white">Admin Gravel</p>
+                        <p class="text-xs font-bold text-white">Admin Siddeeq</p>
                         <p class="text-[10px] text-emerald-400">Workshop Active</p>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
 
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="glass-card p-6">
-                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Statistik Sparepart</h3>
+                        <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Statistik Siddeeq Works</h3>
                         <canvas id="salesChart" height="150"></canvas>
                     </div>
                     <div class="glass-card p-6">
@@ -114,7 +114,7 @@
                     <div class="flex-1 grid grid-cols-2 md:grid-cols-3 gap-4" id="menuGrid"></div>
                     <div class="w-full lg:w-80">
                         <div class="glass-card p-6 border-blue-500/20 border-2">
-                            <h3 class="text-center font-black text-sm uppercase mb-6 tracking-widest text-blue-400">Nota Pesanan</h3>
+                            <h3 class="text-center font-black text-sm uppercase mb-6 tracking-widest text-blue-400">Nota Siddeeq Works</h3>
                             <div id="cartItems" class="space-y-3 mb-6 min-h-[200px] border-y border-white/5 py-4 text-[11px] font-mono">
                                 <p class="text-center text-slate-600 italic">Belum ada part dipilih</p>
                             </div>
@@ -133,12 +133,12 @@
             <div id="stok" class="page-content">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="glass-card p-6">
-                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Input & Master Barang</h3>
+                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Master Barang Siddeeq</h3>
                         <div class="space-y-4">
                             <div class="p-3 bg-slate-900/50 rounded-xl border border-white/5">
-                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Registrasi Barang Baru</p>
+                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Input Barang Baru</p>
                                 <input id="newName" type="text" placeholder="Nama Barang" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
-                                <input id="newModal" type="number" placeholder="Harga Pokok (Modal)" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
+                                <input id="newModal" type="number" placeholder="Harga Modal (Pokok)" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
                                 <input id="newJual" type="number" placeholder="Harga Jual" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
                                 <button onclick="addNewItem()" class="w-full bg-emerald-600 text-white py-2 rounded text-[9px] font-black uppercase">Daftarkan Barang</button>
                             </div>
@@ -146,10 +146,10 @@
                             <hr class="border-white/5">
 
                             <div>
-                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Update Stok Existing</p>
+                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Update Stok</p>
                                 <select id="inputNama" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs font-bold outline-none mb-2"></select>
                                 <input id="inputQty" type="number" placeholder="Jumlah" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs outline-none focus:border-emerald-500 mb-2">
-                                <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Update Stok</button>
+                                <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Tambah Stok</button>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
     </div>
 
     <script>
-        // DATA AWAL (Tetap Dijaga)
+        // STATE UTAMA
         let state = {
             omzet: 0,
             totalProfit: 0,
@@ -184,20 +184,20 @@
             ]
         };
 
-        // PERSISTENCE LOGIC
+        // DATABASE LOKAL
         function saveData() {
-            localStorage.setItem('gravel_db', JSON.stringify(state));
+            localStorage.setItem('siddeeq_db', JSON.stringify(state));
         }
 
         function resetData() {
-            if(confirm("Hapus semua data?")) {
-                localStorage.removeItem('gravel_db');
+            if(confirm("Hapus semua data Siddeeq Cycle Works?")) {
+                localStorage.removeItem('siddeeq_db');
                 location.reload();
             }
         }
 
         window.onload = () => {
-            const saved = localStorage.getItem('gravel_db');
+            const saved = localStorage.getItem('siddeeq_db');
             if(saved) state = JSON.parse(saved);
             
             renderMenu();
@@ -209,15 +209,15 @@
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
 
-        // FUNGSI TAMBAH BARANG BARU
+        // FUNGSI MASTER DATA
         function addNewItem() {
             const name = document.getElementById('newName').value;
             const modal = parseInt(document.getElementById('newModal').value);
             const jual = parseInt(document.getElementById('newJual').value);
 
-            if(!name || !modal || !jual) return alert("Mohon lengkapi data barang!");
+            if(!name || isNaN(modal) || isNaN(jual)) return alert("Mohon lengkapi data barang dengan benar!");
 
-            const newId = state.parts.length + 1;
+            const newId = Date.now(); // ID unik
             state.parts.push({ id: newId, nama: name, harga: jual, modal: modal, icon: "📦" });
             state.inventory.push({ nama: name, stok: 0, unit: "pcs", limit: 2 });
 
@@ -229,7 +229,7 @@
             document.getElementById('newName').value = "";
             document.getElementById('newModal').value = "";
             document.getElementById('newJual').value = "";
-            notify("Barang Baru Terdaftar!");
+            notify(name + " Berhasil Didaftarkan!");
         }
 
         function updateDropdown() {
@@ -294,24 +294,22 @@
         function processTransaction() {
             if(state.cart.length === 0) return;
             
-            let currentTransactionOmzet = 0;
-            let currentTransactionProfit = 0;
+            let omzetTrx = 0;
+            let profitTrx = 0;
 
             state.cart.forEach(item => {
-                currentTransactionOmzet += item.harga;
-                // Hitung profit: Harga Jual - Modal
-                currentTransactionProfit += (item.harga - (item.modal || 0));
+                omzetTrx += item.harga;
+                profitTrx += (item.harga - (item.modal || 0));
                 
-                // Kurangi stok di gudang
                 const invItem = state.inventory.find(i => i.nama === item.nama);
                 if(invItem && invItem.stok > 0) invItem.stok--;
             });
 
-            state.omzet += currentTransactionOmzet;
-            state.totalProfit += currentTransactionProfit;
+            state.omzet += omzetTrx;
+            state.totalProfit += profitTrx;
 
             saveData();
-            notify("Akad Berhasil: Rp " + currentTransactionOmzet.toLocaleString());
+            notify("Akad Siddeeq Works Berhasil!");
             state.cart = [];
             renderCart();
             renderInventory();
@@ -321,7 +319,6 @@
 
         function updateKPIs() {
             document.getElementById('kpiJual').innerText = "Rp " + state.omzet.toLocaleString();
-            // Zakat 2.5% dari Akumulasi Profit Bersih
             const zakat = state.totalProfit * 0.025;
             document.getElementById('kpiZakat').innerText = "Rp " + zakat.toLocaleString();
         }
@@ -331,11 +328,11 @@
             log.innerHTML = `
                 <div class="flex gap-3 text-[10px]">
                     <div class="w-1 bg-emerald-500 rounded-full"></div>
-                    <div><p class="text-white font-bold">VERIFIKASI AKAD</p><p class="text-slate-500">Margin keuntungan part divalidasi transparan.</p></div>
+                    <div><p class="text-white font-bold">TRANSPARANSI MODAL</p><p class="text-slate-500">Margin dihitung dari harga pokok Siddeeq Works.</p></div>
                 </div>
                 <div class="flex gap-3 text-[10px]">
                     <div class="w-1 bg-blue-500 rounded-full"></div>
-                    <div><p class="text-white font-bold">BEBAS RIBA</p><p class="text-slate-500">Profit disisihkan 2.5% untuk Zakat Mal secara otomatis.</p></div>
+                    <div><p class="text-white font-bold">AKUMULASI ZAKAT</p><p class="text-slate-500">Otomatis menyisihkan 2.5% dari profit transaksi.</p></div>
                 </div>
             `;
         }
@@ -343,12 +340,12 @@
         function addStock() {
             const nama = document.getElementById('inputNama').value;
             const qty = parseInt(document.getElementById('inputQty').value);
-            if(!qty) return;
+            if(isNaN(qty)) return;
             const item = state.inventory.find(i => i.nama === nama);
             item.stok += qty;
             saveData();
             renderInventory();
-            notify("Stok " + nama + " diperbarui");
+            notify("Stok " + nama + " Berhasil Ditambah");
         }
 
         function notify(msg) {
@@ -365,7 +362,7 @@
                 data: {
                     labels: ['S', 'S', 'R', 'K', 'J', 'S', 'M'],
                     datasets: [{
-                        data: [5, 8, 4, 10, 15, 25, 18],
+                        data: [12, 19, 13, 25, 22, 30, 28],
                         borderColor: '#10B981',
                         backgroundColor: 'rgba(16, 185, 129, 0.1)',
                         fill: true,
