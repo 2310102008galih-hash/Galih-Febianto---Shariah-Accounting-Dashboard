@@ -104,6 +104,7 @@
                     <div class="glass-card p-6">
                         <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Log Audit Syariah</h3>
                         <div id="syariahLog" class="space-y-4"></div>
+                        <button onclick="resetData()" class="mt-8 text-[9px] text-slate-600 hover:text-red-400 uppercase font-bold tracking-tighter transition-all">Hapus Database Lokal</button>
                     </div>
                 </div>
             </div>
@@ -156,6 +157,7 @@
     </div>
 
     <script>
+        // Data Default
         let state = {
             omzet: 0,
             cart: [],
@@ -173,10 +175,29 @@
             ]
         };
 
+        // FUNGSI PENDukung PERSISTENCE (Poin 1)
+        function saveData() {
+            localStorage.setItem('gravel_tamasya_data', JSON.stringify(state));
+        }
+
+        function resetData() {
+            if(confirm("Apakah Anda yakin ingin menghapus semua data? Ini akan mereset omzet dan stok.")) {
+                localStorage.removeItem('gravel_tamasya_data');
+                location.reload();
+            }
+        }
+
         window.onload = () => {
+            // Ambil data dari localStorage saat buka web
+            const savedData = localStorage.getItem('gravel_tamasya_data');
+            if(savedData) {
+                state = JSON.parse(savedData);
+            }
+
             renderMenu();
             renderInventory();
             initChart();
+            updateKPIs(); // Langsung update angka dari data tersimpan
             updateSyariahLog();
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
         }
@@ -239,6 +260,9 @@
             if(state.cart.length === 0) return;
             const total = state.cart.reduce((a, b) => a + b.harga, 0);
             state.omzet += total;
+            
+            saveData(); // SIMPAN DATA SETELAH TRANSAKSI
+
             notify("Akad Berhasil: Rp " + total.toLocaleString());
             state.cart = [];
             renderCart();
@@ -273,6 +297,9 @@
             if(!qty) return;
             const item = state.inventory.find(i => i.nama === nama);
             item.stok += qty;
+            
+            saveData(); // SIMPAN DATA SETELAH UPDATE STOK
+
             renderInventory();
             notify("Stok " + nama + " ditambahkan");
         }
@@ -307,9 +334,3 @@
     </script>
 </body>
 </html>
-// Simpan data
-localStorage.setItem('gravelData', JSON.stringify(state));
-
-// Ambil data saat window.onload
-const savedData = localStorage.getItem('gravelData');
-if(savedData) state = JSON.parse(savedData);
