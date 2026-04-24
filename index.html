@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #10B981; /* Hijau Emerald */
-            --secondary: #3B82F6; /* Biru Royal */
-            --accent: #64748B; /* Abu-abu Slate */
-            --dark-bg: #0F172A; /* Abu Tua Gelap */
+            --primary: #10B981;
+            --secondary: #3B82F6;
+            --accent: #64748B;
+            --dark-bg: #0F172A;
             --card-bg: #1E293B;
         }
         body { background-color: var(--dark-bg); color: #F1F5F9; }
@@ -79,12 +79,12 @@
                     <div class="glass-card p-6 border-b-4 border-emerald-500">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Penjualan Hari Ini</p>
                         <h2 class="text-2xl font-black text-white" id="kpiJual">Rp 0</h2>
-                        <p class="text-[10px] text-emerald-400 mt-2"><i class="fas fa-caret-up"></i> 15% dari target harian</p>
+                        <p class="text-[10px] text-emerald-400 mt-2"><i class="fas fa-caret-up"></i> Terhitung dari Omzet</p>
                     </div>
                     <div class="glass-card p-6 border-b-4 border-blue-500">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Estimasi Zakat Mal</p>
                         <h2 class="text-2xl font-black text-white" id="kpiZakat">Rp 0</h2>
-                        <p class="text-[10px] text-slate-500 mt-2 italic">Dihitung harian (2.5% Profit)</p>
+                        <p class="text-[10px] text-slate-500 mt-2 italic">Akumulasi 2.5% dari Profit Bersih</p>
                     </div>
                     <div class="glass-card p-6 border-b-4 border-slate-500">
                         <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Status Syariah</p>
@@ -104,7 +104,7 @@
                     <div class="glass-card p-6">
                         <h3 class="text-sm font-bold mb-6 text-slate-300 uppercase tracking-widest">Log Audit Syariah</h3>
                         <div id="syariahLog" class="space-y-4"></div>
-                        <button onclick="resetData()" class="mt-8 text-[9px] text-slate-600 hover:text-red-400 uppercase font-bold tracking-tighter transition-all">Hapus Database Lokal</button>
+                        <button onclick="resetData()" class="mt-8 text-[9px] text-slate-600 hover:text-red-400 uppercase font-bold tracking-tighter">Reset Database Lokal</button>
                     </div>
                 </div>
             </div>
@@ -133,16 +133,24 @@
             <div id="stok" class="page-content">
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
                     <div class="glass-card p-6">
-                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Input Barang</h3>
+                        <h3 class="text-xs font-bold text-emerald-500 uppercase mb-4">Input & Master Barang</h3>
                         <div class="space-y-4">
-                            <select id="inputNama" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs font-bold outline-none focus:border-emerald-500">
-                                <option>Ban Luar Gravel</option>
-                                <option>Rantai 11 Speed</option>
-                                <option>Kampas Rem</option>
-                                <option>Bar Tape</option>
-                            </select>
-                            <input id="inputQty" type="number" placeholder="Jumlah" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs outline-none focus:border-emerald-500">
-                            <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Update Stok</button>
+                            <div class="p-3 bg-slate-900/50 rounded-xl border border-white/5">
+                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Registrasi Barang Baru</p>
+                                <input id="newName" type="text" placeholder="Nama Barang" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
+                                <input id="newModal" type="number" placeholder="Harga Pokok (Modal)" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
+                                <input id="newJual" type="number" placeholder="Harga Jual" class="w-full bg-slate-900 border border-white/10 p-2 rounded mb-2 text-xs outline-none focus:border-emerald-500">
+                                <button onclick="addNewItem()" class="w-full bg-emerald-600 text-white py-2 rounded text-[9px] font-black uppercase">Daftarkan Barang</button>
+                            </div>
+
+                            <hr class="border-white/5">
+
+                            <div>
+                                <p class="text-[9px] font-bold text-slate-400 mb-2 uppercase">Update Stok Existing</p>
+                                <select id="inputNama" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs font-bold outline-none mb-2"></select>
+                                <input id="inputQty" type="number" placeholder="Jumlah" class="w-full bg-slate-900 border border-white/10 p-3 rounded-lg text-xs outline-none focus:border-emerald-500 mb-2">
+                                <button onclick="addStock()" class="w-full bg-slate-700 hover:bg-emerald-600 text-white py-3 rounded-lg font-bold text-[10px] uppercase transition-all">Update Stok</button>
+                            </div>
                         </div>
                     </div>
                     <div class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 gap-4" id="inventoryDisplay"></div>
@@ -157,9 +165,10 @@
     </div>
 
     <script>
-        // Data Default
+        // DATA AWAL (Tetap Dijaga)
         let state = {
             omzet: 0,
+            totalProfit: 0,
             cart: [],
             inventory: [
                 { nama: "Ban Luar Gravel", stok: 12, unit: "pcs", limit: 3 },
@@ -168,38 +177,64 @@
                 { nama: "Bar Tape", stok: 8, unit: "roll", limit: 3 }
             ],
             parts: [
-                { id: 1, nama: "Ban Continental", harga: 650000, icon: "⭕" },
-                { id: 2, nama: "Rantai Shimano", harga: 420000, icon: "⛓️" },
-                { id: 3, nama: "Brake Pad Ceramic", harga: 150000, icon: "⏹️" },
-                { id: 4, nama: "Bar Tape Ciclovation", harga: 380000, icon: "➰" }
+                { id: 1, nama: "Ban Luar Gravel", harga: 650000, modal: 500000, icon: "⭕" },
+                { id: 2, nama: "Rantai 11 Speed", harga: 420000, modal: 350000, icon: "⛓️" },
+                { id: 3, nama: "Kampas Rem", harga: 150000, modal: 100000, icon: "⏹️" },
+                { id: 4, nama: "Bar Tape", harga: 380000, modal: 280000, icon: "➰" }
             ]
         };
 
-        // FUNGSI PENDukung PERSISTENCE (Poin 1)
+        // PERSISTENCE LOGIC
         function saveData() {
-            localStorage.setItem('gravel_tamasya_data', JSON.stringify(state));
+            localStorage.setItem('gravel_db', JSON.stringify(state));
         }
 
         function resetData() {
-            if(confirm("Apakah Anda yakin ingin menghapus semua data? Ini akan mereset omzet dan stok.")) {
-                localStorage.removeItem('gravel_tamasya_data');
+            if(confirm("Hapus semua data?")) {
+                localStorage.removeItem('gravel_db');
                 location.reload();
             }
         }
 
         window.onload = () => {
-            // Ambil data dari localStorage saat buka web
-            const savedData = localStorage.getItem('gravel_tamasya_data');
-            if(savedData) {
-                state = JSON.parse(savedData);
-            }
-
+            const saved = localStorage.getItem('gravel_db');
+            if(saved) state = JSON.parse(saved);
+            
             renderMenu();
             renderInventory();
+            updateDropdown();
             initChart();
-            updateKPIs(); // Langsung update angka dari data tersimpan
+            updateKPIs();
             updateSyariahLog();
             document.getElementById('tanggal').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        // FUNGSI TAMBAH BARANG BARU
+        function addNewItem() {
+            const name = document.getElementById('newName').value;
+            const modal = parseInt(document.getElementById('newModal').value);
+            const jual = parseInt(document.getElementById('newJual').value);
+
+            if(!name || !modal || !jual) return alert("Mohon lengkapi data barang!");
+
+            const newId = state.parts.length + 1;
+            state.parts.push({ id: newId, nama: name, harga: jual, modal: modal, icon: "📦" });
+            state.inventory.push({ nama: name, stok: 0, unit: "pcs", limit: 2 });
+
+            saveData();
+            renderMenu();
+            renderInventory();
+            updateDropdown();
+            
+            document.getElementById('newName').value = "";
+            document.getElementById('newModal').value = "";
+            document.getElementById('newJual').value = "";
+            notify("Barang Baru Terdaftar!");
+        }
+
+        function updateDropdown() {
+            const select = document.getElementById('inputNama');
+            select.innerHTML = state.inventory.map(i => `<option value="${i.nama}">${i.nama}</option>`).join('');
         }
 
         function showPage(pageId, btn) {
@@ -258,23 +293,37 @@
 
         function processTransaction() {
             if(state.cart.length === 0) return;
-            const total = state.cart.reduce((a, b) => a + b.harga, 0);
-            state.omzet += total;
             
-            saveData(); // SIMPAN DATA SETELAH TRANSAKSI
+            let currentTransactionOmzet = 0;
+            let currentTransactionProfit = 0;
 
-            notify("Akad Berhasil: Rp " + total.toLocaleString());
+            state.cart.forEach(item => {
+                currentTransactionOmzet += item.harga;
+                // Hitung profit: Harga Jual - Modal
+                currentTransactionProfit += (item.harga - (item.modal || 0));
+                
+                // Kurangi stok di gudang
+                const invItem = state.inventory.find(i => i.nama === item.nama);
+                if(invItem && invItem.stok > 0) invItem.stok--;
+            });
+
+            state.omzet += currentTransactionOmzet;
+            state.totalProfit += currentTransactionProfit;
+
+            saveData();
+            notify("Akad Berhasil: Rp " + currentTransactionOmzet.toLocaleString());
             state.cart = [];
             renderCart();
+            renderInventory();
             updateKPIs();
-            updateSyariahLog();
             showPage('overview');
         }
 
         function updateKPIs() {
             document.getElementById('kpiJual').innerText = "Rp " + state.omzet.toLocaleString();
-            let profit = state.omzet * 0.20; // Margin 20%
-            document.getElementById('kpiZakat').innerText = "Rp " + (profit * 0.025).toLocaleString();
+            // Zakat 2.5% dari Akumulasi Profit Bersih
+            const zakat = state.totalProfit * 0.025;
+            document.getElementById('kpiZakat').innerText = "Rp " + zakat.toLocaleString();
         }
 
         function updateSyariahLog() {
@@ -286,7 +335,7 @@
                 </div>
                 <div class="flex gap-3 text-[10px]">
                     <div class="w-1 bg-blue-500 rounded-full"></div>
-                    <div><p class="text-white font-bold">BEBAS RIBA</p><p class="text-slate-500">Tidak ada denda keterlambatan atau biaya siluman.</p></div>
+                    <div><p class="text-white font-bold">BEBAS RIBA</p><p class="text-slate-500">Profit disisihkan 2.5% untuk Zakat Mal secara otomatis.</p></div>
                 </div>
             `;
         }
@@ -297,11 +346,9 @@
             if(!qty) return;
             const item = state.inventory.find(i => i.nama === nama);
             item.stok += qty;
-            
-            saveData(); // SIMPAN DATA SETELAH UPDATE STOK
-
+            saveData();
             renderInventory();
-            notify("Stok " + nama + " ditambahkan");
+            notify("Stok " + nama + " diperbarui");
         }
 
         function notify(msg) {
